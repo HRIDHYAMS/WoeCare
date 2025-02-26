@@ -1,0 +1,152 @@
+/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+.homepage {
+  font-family: 'Poppins', sans-serif;
+  background: #F2EDE2;
+  color: #201b10;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed; /* Sticks to the top */
+  top: 0;
+  left: 0;
+  width: 100%; /* Full-width */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #BACBD8;
+  padding: 10px 5%; /* Responsive padding */
+  z-index: 1000;
+/* Ensures it stays above everything else */
+}
+
+.navbar h2 {
+  font-size: 2rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.nav-item:hover {
+  text-decoration: underline;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(90deg, #c9bda3, #b5ccde);
+  padding: 150px 5% 100px; /* Added extra padding on top so content isn't covered by navbar */
+  text-align: center;
+  width: 100%;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.get-started {
+  background: #BACBD8;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.get-started:hover {
+  background: #201b10;
+  color: #F2EDE2;
+}
+
+/* How It Works */
+.how-it-works {
+  text-align: center;
+  padding: 50px 5%; /* Responsive padding */
+  width: 100%;
+}
+
+.steps {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.step {
+  background: #BACBD8;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%; /* Ensures steps fill the available space */
+  max-width: 250px;
+  transition: transform 0.3s;
+}
+
+.step:hover {
+  transform: translateY(-5px);
+}
+
+/* Features */
+.features {
+  text-align: center;
+  padding: 50px 5%; /* Responsive padding */
+  width: 100%;
+}
+
+.feature-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+/* Footer */
+.footer {
+  background: #BACBD8; /* Same as navbar */
+  text-align: center;
+  padding: 20px 5%; /* Consistent padding */
+  color: #201b10; /* Matching text color */
+  font-weight: bold;
+  position: relative; /* Keeps it at the bottom without being fixed */
+  width: 100%; /* Full-width */
+}
+
+.footer p {
+  margin: 0;
+}
+/* About Section */
+.about {
+  text-align: center;
+  padding: 50px 5%;
+  background: #E5DCC3; /* Soft contrast but still fitting the theme */
+  border-radius: 10px;
+  margin: 20px 5%;
+}
