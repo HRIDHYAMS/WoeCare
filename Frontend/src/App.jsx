@@ -4,6 +4,7 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard"; // Fixed case sensitivity issue
 import Chatbot from "./pages/Chatbot"; // Added chatbot route
+import AdminDashboard from "./pages/AdminDashboard"; // Import Admin Dashboard
 
 function App() {
   return (
@@ -15,13 +16,10 @@ function App() {
         <Route path="/home" element={<HomePage />} /> {/* Redirect after login */}
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/chatbot" element={<Chatbot />} /> {/* Chatbot page */}
+        <Route path="/admindashboard" element={<AdminDashboard />} /> {/* Admin Dashboard */}
       </Routes>
     </Router>
   );
 }
 
 export default App;
-
-
-
-

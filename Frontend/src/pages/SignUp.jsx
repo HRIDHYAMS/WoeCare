@@ -11,6 +11,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("user"); // Default role is user
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -38,6 +39,7 @@ const SignUp = () => {
         name,
         dob: dobTimestamp,
         email,
+        role,  // Store the selected role
         createdAt: Timestamp.now() // Track the creation date
       });
 
@@ -50,34 +52,32 @@ const SignUp = () => {
   };
 
   // Handle Google Sign-In
-  // Handle Google Sign-In
-const handleGoogleSignIn = async () => {
-  try {
-    // Force account chooser
-    provider.setCustomParameters({
-      prompt: "select_account"
-    });
+  const handleGoogleSignIn = async () => {
+    try {
+      provider.setCustomParameters({
+        prompt: "select_account"
+      });
 
-    const result = await signInWithPopup(auth, provider);
-    console.log("Google Sign-In Success:", result.user);
+      const result = await signInWithPopup(auth, provider);
+      console.log("Google Sign-In Success:", result.user);
 
-    const user = result.user;
+      const user = result.user;
 
-    // Store Google user data in Firestore if not already stored
-    await setDoc(doc(db, "users", user.uid), {
-      name: user.displayName,
-      email: user.email,
-      createdAt: Timestamp.now()
-    });
+      // Store Google user data in Firestore if not already stored
+      await setDoc(doc(db, "users", user.uid), {
+        name: user.displayName,
+        email: user.email,
+        role,  // Store the selected role
+        createdAt: Timestamp.now()
+      });
 
-    alert("Signed in successfully with Google!");
-    navigate("/dashboard");
-  } catch (error) {
-    setError(error.message);
-    console.error("Google Sign-In Error:", error);
-  }
-};
-
+      alert("Signed in successfully with Google!");
+      navigate("/dashboard");
+    } catch (error) {
+      setError(error.message);
+      console.error("Google Sign-In Error:", error);
+    }
+  };
 
   return (
     <div className="signup-page">
@@ -120,6 +120,31 @@ const handleGoogleSignIn = async () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
+
+          {/* Role Selection */}
+          <div className="role-selection">
+            <label>
+              <input 
+                type="radio" 
+                name="role" 
+                value="user" 
+                checked={role === "user"} 
+                onChange={() => setRole("user")} 
+              />
+              User
+            </label>
+            <label>
+              <input 
+                type="radio" 
+                name="role" 
+                value="admin" 
+                checked={role === "admin"} 
+                onChange={() => setRole("admin")} 
+              />
+              Admin
+            </label>
+          </div>
+
           <button type="submit" className="signup-btn">Sign Up</button>
         </form>
         <button className="google-btn" onClick={handleGoogleSignIn}>
