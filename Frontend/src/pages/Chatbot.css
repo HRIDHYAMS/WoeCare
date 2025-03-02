@@ -1,0 +1,127 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    color: #333333;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .header {
+    text-align: center;
+    padding: 20px 0;
+    color: #333333;
+  }
+  
+  .header img {
+    height: 60px;
+    width: auto;
+  }
+  
+  .chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    overflow-y: auto;
+    gap: 15px;
+  }
+  
+  .message {
+    display: flex;
+    align-items: flex-start;
+    max-width: 70%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    border-radius: 15px;
+    padding: 15px;
+  }
+  
+  .message.user {
+    align-self: flex-end;
+    text-align: right;
+    background-color: #d1fae5; /* Soft green for user messages */
+  }
+  
+  .message.model {
+    align-self: flex-start;
+    text-align: left;
+    background-color: #f9c2c2; /* Soft red for model messages */
+  }
+  
+  .message .msg-header {
+    font-weight: bold;
+    font-size: 20px;
+    padding: 3px 8px;
+    border-radius: 15px;
+    margin-right: 5px;
+    background-color: #406340; /* Dark green for headers */
+    color: #ffffff;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  
+  .message.model .msg-header {
+    background-color: #c74b4b; /* Dark red for model header */
+  }
+  
+  .message .msg-body {
+    font-size: 18px; /* Slightly smaller font for readability */
+    color: #333333;
+    border-radius: 20px;
+    background-color: transparent;
+    flex: 1;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    line-height: 1.4; /* Improve text readability */
+  }
+  
+  .footer {
+    display: flex;
+    justify-content: center; /* Center all elements */
+    align-items: center;
+    padding: 20px;
+    background-color: #3929292a;
+    border-top: 1px solid #ddd;
+    border-radius: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    gap: 10px;
+    width: fit-content; /* Ensure the footer width adjusts to content */
+    margin: 40px auto; /* Center the footer horizontally */
+  }
+  
+  .footer input {
+    background-color: #3929292a;
+    color: #333333;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    width: 1000px; /* Set a fixed width for centering */
+    margin: 0; /* Remove extra margin */
+  }
+  
+  .footer button {
+    background-color: #3b4252;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .footer button#attachment {
+    background-color: #3592bd;
+  }
+  
+  .footer button:hover {
+    background-color: #4f5b66;
+  }
+  

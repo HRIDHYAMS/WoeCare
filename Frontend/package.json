@@ -1,5 +1,5 @@
 {
-  "name": "vite",
+  "name": "woecare-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -14,8 +14,8 @@
     "firebase": "^11.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^6.29.0",
-    "recat": "^0.0.0"
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^6.29.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
