@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -17,12 +16,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-const db = getFirestore(app);  // Initialize Firestore
+const db = getFirestore(app); // Initialize Firestore
+
 // Function to store user data in Firestore after sign-up
 const storeUserInFirestore = async (user) => {
   try {
     await setDoc(doc(db, "users", user.uid), {
-      name: user.displayName || 'Anonymous',
+      name: user.displayName || "Anonymous",
       email: user.email,
       uid: user.uid,
       createdAt: new Date(),
@@ -32,14 +32,13 @@ const storeUserInFirestore = async (user) => {
   }
 };
 
-
 // Function to handle Google login
 const handleGoogleLogin = async () => {
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
     console.log("Google Login Success:", user);
-    
+
     // Store user in Firestore after successful Google login
     await storeUserInFirestore(user);
   } catch (error) {

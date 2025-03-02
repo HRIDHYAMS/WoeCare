@@ -3,6 +3,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { FaPaperclip, FaLocationArrow } from "react-icons/fa";
 import "./Chatbot.css";
 
+// Firebase imports
+import { doc, collection, addDoc, getDocs, orderBy, query } from "firebase/firestore";
+import { auth, db } from "../../.././Backend/firebase"; // Adjust the import path as needed
+
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
@@ -10,7 +14,19 @@ const Chatbot = () => {
   const chatContainerRef = useRef(null);
   const messageCountRef = useRef(0);
 
-  // Scroll chat to the bottom when new messages are added
+  // Load chat history when authentication state changes
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        loadChatHistory(user.uid);
+      } else {
+        setMessages([]);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Scroll chat to bottom when messages update
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -21,7 +37,7 @@ const Chatbot = () => {
     }
   };
 
-  // Append a new message to the chat
+  // Append a new message to the UI
   const appendMessage = (sender, message, id = null) => {
     setMessages((prevMessages) => [
       ...prevMessages,
@@ -29,49 +45,89 @@ const Chatbot = () => {
     ]);
   };
 
-  // Send a message to the backend
-  const sendMessage = () => {
-    if (!inputText && !selectedFile) return;
+  // Load chat history from Firestore for a given user ID
+  const loadChatHistory = async (uid) => {
+    try {
+      const userRef = doc(db, "users", uid);
+      const chatRef = collection(userRef, "chats");
+      const q = query(chatRef, orderBy("timestamp", "asc"));
+      const querySnapshot = await getDocs(q);
+      const history = [];
+      querySnapshot.forEach((docSnap) => {
+        history.push(docSnap.data());
+      });
+      setMessages(history);
+    } catch (error) {
+      console.error("Error loading chat history:", error);
+    }
+  };
 
-    // Append user's message
+  // Send a message: update UI, store in Firestore, and fetch bot response
+  const sendMessage = async () => {
+    if (!inputText && !selectedFile) return;
+    const user = auth.currentUser;
+    if (!user) {
+      console.error("User not authenticated");
+      return;
+    }
+
+    const userRef = doc(db, "users", user.uid);
+    const chatRef = collection(userRef, "chats");
+
+    // Append user's message in UI
     appendMessage("user", inputText || "File Sent");
+
+    // Store user's message in Firestore
+    await addDoc(chatRef, {
+      sender: "user",
+      message: inputText,
+      timestamp: new Date(),
+    });
+
     const textToSend = inputText;
     setInputText("");
 
-    // Build form data for the request
+    // Build form data for backend
     const formData = new FormData();
     formData.append("msg", textToSend);
     if (selectedFile) {
       formData.append("file", selectedFile);
     }
 
-    fetchBotResponse(formData);
+    // Fetch bot response from backend
+    fetchBotResponse(formData, user.uid);
   };
 
-  // Fetch the bot's reply from the backend
-  const fetchBotResponse = (formData) => {
+  // Call backend API to get bot response and then store it in Firestore
+  const fetchBotResponse = (formData, uid) => {
     fetch("http://localhost:3000/get", {
       method: "POST",
       body: formData,
     })
       .then((response) => response.text())
-      .then((data) => {
+      .then(async (data) => {
         console.log("Received from backend:", data);
         displayBotResponse(data || "");
+        const userRef = doc(db, "users", uid);
+        const chatRef = collection(userRef, "chats");
+        await addDoc(chatRef, {
+          sender: "bot",
+          message: data,
+          timestamp: new Date(),
+        });
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("Error fetching bot response:", error);
         appendMessage("model error", "Failed to fetch a response from the server.");
       })
       .finally(() => setSelectedFile(null));
   };
 
-  // Display the bot's reply gradually without appending "undefined"
+  // Gradually display bot response without appending undefined
   const displayBotResponse = (data) => {
     const botMessageId = `botMessage-${messageCountRef.current++}`;
-    // Start with an empty message
-    appendMessage("model", "", botMessageId);
-    
+    appendMessage("bot", "", botMessageId);
+
     let index = 0;
     let currentText = "";
     const interval = setInterval(() => {
@@ -98,11 +154,9 @@ const Chatbot = () => {
         {messages.map((msg, index) => (
           <div key={index} className={`message ${msg.sender}`}>
             <div className="msg-header">
-              {msg.sender.charAt(0).toUpperCase() + msg.sender.slice(1)}
+              {msg.sender === "user" ? "You" : "Bot"}
             </div>
-            <div className="msg-body" id={msg.id}>
-              {msg.message}
-            </div>
+            <div className="msg-body">{msg.message}</div>
           </div>
         ))}
       </div>
