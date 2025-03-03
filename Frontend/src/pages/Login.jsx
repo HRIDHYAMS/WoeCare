@@ -8,6 +8,7 @@ import "./Login.css";
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('user'); // Default role is 'user'
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -17,7 +18,11 @@ const Login = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/dashboard'); // Redirect to a dashboard or home page after successful login
+      if (role === "admin") {
+        navigate('/admindashboard'); // Redirect Admins
+      } else {
+        navigate('/dashboard'); // Redirect Users
+      }
     } catch (err) {
       setError('Invalid email or password');
     }
@@ -29,7 +34,12 @@ const Login = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       console.log("Google Login Success:", user);
-      navigate('/dashboard'); // Redirect to dashboard after successful Google login
+      
+      if (role === "admin") {
+        navigate('/admindashboard'); // Redirect Admins
+      } else {
+        navigate('/dashboard'); // Redirect Users
+      }
     } catch (err) {
       setError('Google login failed. Please try again');
       console.error("Error during Google login:", err.message);
@@ -64,6 +74,30 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+        </div>
+
+        {/* Role Selection */}
+        <div className="role-selection">
+          <label>
+            <input 
+              type="radio" 
+              name="role" 
+              value="user" 
+              checked={role === "user"} 
+              onChange={() => setRole("user")} 
+            />
+            User
+          </label>
+          <label>
+            <input 
+              type="radio" 
+              name="role" 
+              value="admin" 
+              checked={role === "admin"} 
+              onChange={() => setRole("admin")} 
+            />
+            Admin
+          </label>
         </div>
 
         <button type="submit">Login</button>
