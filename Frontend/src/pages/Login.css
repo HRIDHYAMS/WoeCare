@@ -1,92 +1,56 @@
-/* General reset for margin and padding */
-* {
+/* Ensure no extra white space */
+html, body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-/* Body styling */
-body {
-  font-family: 'Arial', sans-serif;
-  background: #F2EDE2; /* Matching signup page background */
-  display: flex; /* Flexbox for centering */
-  justify-content: center; /* Horizontal centering */
-  align-items: center; /* Vertical centering */
-  min-height: 100vh; /* Full viewport height */
-  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: #F2EDE2; /* Same background as before */
 }
 
 .login-page {
-  background: #F2EDE2; /* Matching signup background */
+  background: linear-gradient(#a8edea, #fed6e3); /* Ensure full-page color */
   min-height: 100vh;
   display: flex;
-  align-items: center; /* Vertical center */
-  justify-content: center; /* Horizontal center */
+  align-items: center;
+  justify-content: center;
 }
 
-/* Login container */
+/* Login container styling */
 .login-container {
-  background: #BACBD8;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
   width: 100%;
   max-width: 400px;
-}.login-page {
-  background: #F2EDE2; /* Matching signup background */
-  min-height: 100vh;
+  padding: 30px;
+  background: #BACBD8; /* Keep background */
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   display: flex;
-  align-items: center; /* Vertical center */
-  justify-content: center; /* Horizontal center */
+  flex-direction: column; /* Ensure proper spacing */
+  align-items: center;
 }
 
-/* Login container */
-.login-container {
-  background: #BACBD8;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  width: 100%;
-  max-width: 400px;
-}
-
-/* Heading style */
-h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
+/* Heading */
+.login-container h2 {
   color: black;
-}
-
-/* Input group container */
-.input-group {
-  margin-bottom: 20px;
-  text-align: left;
-  width: 80%;
-  margin: 0 auto;
-}
-
-/* Labels */
-label {
-  font-size: 14px;
-  color: black;
-  display: block;
-  margin-bottom: 8px;
+  margin-bottom: 15px;
 }
 
 /* Input fields */
 input {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
+  margin: 12px 0; /* Increased margin for spacing */
   border: none;
   border-radius: 5px;
-  background: #F2EDE2; /* Matching signup inputs */
+  background: #F2EDE2; /* Match container */
   color: black;
   font-size: 1rem;
+  display: block;
 }
 
-/* Button styling */
-button {
-  width: 80%;
+/* Login button */
+.login-btn {
+  width: 100%;
   padding: 12px;
   background: linear-gradient(90deg, #c9bda3, #b5ccde);
   border: none;
@@ -95,16 +59,16 @@ button {
   cursor: pointer;
   border-radius: 5px;
   transition: 0.3s;
+  margin-top: 10px;
 }
 
-/* Button hover effect */
-button:hover {
+.login-btn:hover {
   box-shadow: 0 0 15px #201b10;
 }
 
 /* Google login button */
-.google-login-btn {
-  width: 80%;
+.google-btn {
+  width: 100%;
   padding: 12px;
   background: #795a57;
   color: white;
@@ -113,49 +77,24 @@ button:hover {
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-top: 10px;
 }
 
-.google-login-btn:hover {
+.google-btn:hover {
   background: #c1351d;
 }
 
-.google-login-btn img {
-  width: 20px;
-  margin-right: 10px;
-}
-
-/* Link to SignUp page */
-.signup-link {
-  margin-top: 20px;
-  font-size: 14px;
-  color: black;
-}
-
-.signup-link a {
-  color: black;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.signup-link a:hover {
-  text-decoration: underline;
-}
-
-/* Role selection container */
+/* Role selection radio buttons */
 .role-selection {
   margin: 15px 0;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Spacing between radio buttons */
 }
 
 .role-selection label {
-  margin-right: 15px;
-  font-size: 16px;
+  font-size: 1rem;
   color: black;
-}
-
-.role-selection input {
-  margin-right: 5px;
+  display: block;
+  margin-bottom: 6px;
 }

@@ -47,71 +47,74 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      <form onSubmit={handleLogin}>
-        <div className="input-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        {/* Role Selection */}
-        <div className="role-selection">
-          <label>
-            <input 
-              type="radio" 
-              name="role" 
-              value="user" 
-              checked={role === "user"} 
-              onChange={() => setRole("user")} 
+    <div className="login-page">  {/* Ensures the page uses correct styles */}
+      <div className="login-container">
+        <h2>Login</h2>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+  
+        <form onSubmit={handleLogin}>
+          <div className="input-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
-            User
-          </label>
-          <label>
-            <input 
-              type="radio" 
-              name="role" 
-              value="admin" 
-              checked={role === "admin"} 
-              onChange={() => setRole("admin")} 
+          </div>
+  
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
-            Admin
-          </label>
+          </div>
+  
+          {/* Role Selection */}
+          <div className="role-selection">
+            <label>
+              <input 
+                type="radio" 
+                name="role" 
+                value="user" 
+                checked={role === "user"} 
+                onChange={() => setRole("user")} 
+              />
+              User
+            </label>
+            <label>
+              <input 
+                type="radio" 
+                name="role" 
+                value="admin" 
+                checked={role === "admin"} 
+                onChange={() => setRole("admin")} 
+              />
+              Admin
+            </label>
+          </div>
+  
+          <button className="login-btn" type="submit">Login</button>
+        </form>
+  
+        <button className="google-btn" onClick={handleGoogleLogin}>
+          Login with Google
+        </button>
+  
+        <div className="signup-link">
+          <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
         </div>
-
-        <button type="submit">Login</button>
-      </form>
-
-      <button className="google-login-btn" onClick={handleGoogleLogin}>
-        Login with Google
-      </button>
-
-      <div className="signup-link">
-        <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
       </div>
     </div>
   );
+  
 };
 
 export default Login;

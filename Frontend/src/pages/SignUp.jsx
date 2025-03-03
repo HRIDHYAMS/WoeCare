@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { doc, setDoc, Timestamp } from "firebase/firestore";
+import { doc, setDoc, getDoc, Timestamp } from "firebase/firestore";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, db, provider } from "../firebase";
@@ -27,24 +27,25 @@ const SignUp = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Check if user is created and log user UID
       console.log("User created with UID:", user.uid);
 
-      // Create a Timestamp from the dob input
       const dobTimestamp = Timestamp.fromDate(new Date(dob));
-      console.log("DOB Timestamp:", dobTimestamp); // Log the dob timestamp
+      console.log("DOB Timestamp:", dobTimestamp);
 
-      // Set user data in Firestore
       await setDoc(doc(db, "users", user.uid), {
         name,
         dob: dobTimestamp,
         email,
-        role,  // Store the selected role
-        createdAt: Timestamp.now() // Track the creation date
+        role,
+        createdAt: Timestamp.now()
       });
 
       alert("Sign Up Successful!");
-      navigate("/login"); // Redirect to login after successful sign-up
+      if (role === "admin") {
+        navigate('/admindashboard');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (error) {
       setError(error.message);
       console.error("Error during sign up:", error);
@@ -57,22 +58,46 @@ const SignUp = () => {
       provider.setCustomParameters({
         prompt: "select_account"
       });
-
+  
       const result = await signInWithPopup(auth, provider);
       console.log("Google Sign-In Success:", result.user);
-
+  
       const user = result.user;
-
-      // Store Google user data in Firestore if not already stored
-      await setDoc(doc(db, "users", user.uid), {
-        name: user.displayName,
-        email: user.email,
-        role,  // Store the selected role
-        createdAt: Timestamp.now()
-      });
-
+  
+      // Reference to Firestore user document
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef);
+  
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        console.log("Fetched user data:", userData);
+  
+        // Navigate based on role
+        if (userData.role === "admin") {
+          navigate('/admindashboard'); // Redirect Admins
+        } else {
+          navigate('/dashboard'); // Redirect Users
+        }
+      } else {
+        // If the user does not exist, set the default role to 'user'
+        const newUserRole = role || "user"; // Use selected role or default to "user"
+  
+        await setDoc(userDocRef, {
+          name: user.displayName,
+          email: user.email,
+          role: newUserRole,  // Store the role properly
+          createdAt: Timestamp.now()
+        });
+  
+        // Redirect based on newly assigned role
+        if (newUserRole === "admin") {
+          navigate('/admindashboard');
+        } else {
+          navigate('/dashboard');
+        }
+      }
+  
       alert("Signed in successfully with Google!");
-      navigate("/dashboard");
     } catch (error) {
       setError(error.message);
       console.error("Google Sign-In Error:", error);
@@ -85,68 +110,93 @@ const SignUp = () => {
         <h2>Create Your Account</h2>
         {error && <p className="error-msg">{error}</p>}
         <form onSubmit={handleSignUp}>
-          <input
-            type="text"
-            placeholder="Full Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <input
-            type="date"
-            placeholder="Date of Birth"
-            value={dob}
-            onChange={(e) => setDob(e.target.value)}
-            required
-          />
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Create a password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Confirm your password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
+  <div className="form-group">
+    <label htmlFor="name">Name:</label>
+    <input
+      id="name"
+      type="text"
+      placeholder="Full Name"
+      value={name}
+      onChange={(e) => setName(e.target.value)}
+      required
+    />
+  </div>
 
-          {/* Role Selection */}
-          <div className="role-selection">
-            <label>
-              <input 
-                type="radio" 
-                name="role" 
-                value="user" 
-                checked={role === "user"} 
-                onChange={() => setRole("user")} 
-              />
-              User
-            </label>
-            <label>
-              <input 
-                type="radio" 
-                name="role" 
-                value="admin" 
-                checked={role === "admin"} 
-                onChange={() => setRole("admin")} 
-              />
-              Admin
-            </label>
-          </div>
+  <div className="form-group">
+    <label htmlFor="dob">Date of Birth:</label>
+    <input
+      id="dob"
+      type="date"
+      placeholder="Date of Birth"
+      value={dob}
+      onChange={(e) => setDob(e.target.value)}
+      required
+    />
+  </div>
 
-          <button type="submit" className="signup-btn">Sign Up</button>
-        </form>
+  <div className="form-group">
+    <label htmlFor="email">Email:</label>
+    <input
+      id="email"
+      type="email"
+      placeholder="Enter your email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      required
+    />
+  </div>
+
+  <div className="form-group">
+    <label htmlFor="password">Password:</label>
+    <input
+      id="password"
+      type="password"
+      placeholder="Create a password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      required
+    />
+  </div>
+
+  <div className="form-group">
+    <label htmlFor="confirmPassword">Confirm Password:</label>
+    <input
+      id="confirmPassword"
+      type="password"
+      placeholder="Confirm your password"
+      value={confirmPassword}
+      onChange={(e) => setConfirmPassword(e.target.value)}
+      required
+    />
+  </div>
+
+  {/* Role Selection */}
+  <div className="role-selection">
+    <label>
+      <input 
+        type="radio" 
+        name="role" 
+        value="user" 
+        checked={role === "user"} 
+        onChange={() => setRole("user")} 
+      />
+      User
+    </label>
+    <label>
+      <input 
+        type="radio" 
+        name="role" 
+        value="admin" 
+        checked={role === "admin"} 
+        onChange={() => setRole("admin")} 
+      />
+      Admin
+    </label>
+  </div>
+
+  <button type="submit" className="signup-btn">Sign Up</button>
+</form>
+
         <button className="google-btn" onClick={handleGoogleSignIn}>
           Sign in with Google
         </button>
