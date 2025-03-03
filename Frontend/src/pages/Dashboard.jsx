@@ -37,8 +37,8 @@ const Dashboard = () => {
             className="option-box"
             role="button"
             tabIndex="0"
-            onClick={() => navigate("/questionnaire")}
-            onKeyDown={(e) => e.key === "Enter" && navigate("/questionnaire")}
+            onClick={() => navigate("/Quest")}
+            onKeyDown={(e) => e.key === "Enter" && navigate("/Quest")}
           >
             <h3>Mental Health Test</h3>
             <p>Take a quick assessment to understand your emotional state.</p>

@@ -72,6 +72,31 @@ app.post("/get", uploads.single("file"), async (req, res) => {
   }
 });
 
+// Score Submission API
+app.post("/submit", (req, res) => {
+  const { totalScore } = req.body;
+  let resultText = "";
+  let riskLevel = "";
+
+  if (totalScore <= 15) {
+    riskLevel = "Low Risk / Not Severe";
+    resultText = "Your mental health is in good condition. Stay mindful and take care!";
+  } else if (totalScore <= 40) {
+    riskLevel = "Moderate / Intermediate";
+    resultText = "You may be experiencing some mental health challenges. Consider seeking support.";
+  } else {
+    riskLevel = "High Risk / Severe";
+    resultText = "Please reach out to a mental health professional or a helpline.";
+  }
+
+  res.json({
+    score: totalScore,
+    level: riskLevel,
+    message: resultText,
+  });
+});
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

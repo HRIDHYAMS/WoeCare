@@ -3,6 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { FaPaperclip, FaLocationArrow } from "react-icons/fa";
 import "./Chatbot.css";
 
+
+
 // Firebase imports
 import { doc, collection, addDoc, getDocs, orderBy, query } from "firebase/firestore";
 import { auth, db } from "../../.././Backend/firebase"; // Adjust the import path as needed
