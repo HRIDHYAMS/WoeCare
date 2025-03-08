@@ -1,78 +1,76 @@
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import "./Dashboard.css";
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-
-  const handleLogout = (event) => {
-    event.preventDefault(); // Prevents default link behavior
-    console.log("Logging out...");
-    navigate("/login"); // Redirect to login page
-  };
-
   return (
-    <div className="dashboard">
-      {/* Header */}
-      <header className="dashboard-header">
-        <h1>WoeCare</h1>
-        <nav>
-          <ul>
-            <li>
-              <button onClick={handleLogout} className="logout-button">
-                Logout
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </header>
-
-      {/* Main Content */}
-      <main className="dashboard-main">
-        <h2>Welcome to WoeCare</h2>
-        <p>Your partner in emotional well-being</p>
-
-        <div className="dashboard-options">
-          <div
-            className="option-box"
-            role="button"
-            tabIndex="0"
-            onClick={() => navigate("/Quest")}
-            onKeyDown={(e) => e.key === "Enter" && navigate("/Quest")}
-          >
-            <h3>Mental Health Test</h3>
-            <p>Take a quick assessment to understand your emotional state.</p>
-          </div>
-
-          <div
-            className="option-box"
-            role="button"
-            tabIndex="0"
-            onClick={() => navigate("/chatbot")}
-            onKeyDown={(e) => e.key === "Enter" && navigate("/chatbot")}
-          >
-            <h3>Chat with Woebot</h3>
-            <p>Engage with our AI-powered mental health companion.</p>
-          </div>
-
-          <div
-            className="option-box"
-            role="button"
-            tabIndex="0"
-            onClick={() => navigate("/slot-booking")}
-            onKeyDown={(e) => e.key === "Enter" && navigate("/slot-booking")}
-          >
-            <h3>Book a Therapist</h3>
-            <p>Schedule sessions with professional mental health experts.</p>
-          </div>
+    <>
+      {/* Full-Width Navigation Bar */}
+      <nav className="woecare-dashboard-navbar">
+        <h2>WoeCare</h2>
+        <div className="woecare-dashboard-nav-links">
+          <Link to="/login" className="woecare-dashboard-nav-item">
+            Logout
+          </Link>
         </div>
-      </main>
+      </nav>
 
-      {/* Footer */}
-      <footer className="dashboard-footer">
-        <p>© {new Date().getFullYear()} WoeCare. All rights reserved.</p>
+      {/* Combined Section: Title, Description on Left - Feature Links on Right */}
+      <section className="woecare-dashboard-combined-section">
+        <div className="woecare-dashboard-info">
+          <motion.h1
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1 }}
+          >
+            Welcome to WoeCare
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.2 }}
+          >
+            Your mental health companion — explore tools to improve well-being.
+          </motion.p>
+        </div>
+
+        <div className="woecare-dashboard-feature-links">
+          <motion.div
+            className="woecare-dashboard-feature-card"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link to="/Quest" className="woecare-dashboard-feature-link">
+              Take Mental Health Test
+            </Link>
+          </motion.div>
+          <motion.div
+            className="woecare-dashboard-feature-card"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link to="/chatbot" className="woecare-dashboard-feature-link">
+              Chat with Woebot
+            </Link>
+          </motion.div>
+          <motion.div
+            className="woecare-dashboard-feature-card"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link to="/booking" className="woecare-dashboard-feature-link">
+              Book a Therapist
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Full-Width Footer */}
+      <footer className="woecare-dashboard-footer">
+        <p>&copy; 2025 WoeCare. All Rights Reserved.</p>
       </footer>
-    </div>
+    </>
   );
 };
 

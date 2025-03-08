@@ -1,13 +1,14 @@
 body, html {
     height: 100%;
     margin: 0;
-    background: linear-gradient( #a8edea , #fed6e3 );
-    background-attachment: fixed;
+    background:url("chatbot.jpeg") no-repeat center center fixed;
+    background-size: cover;
     color: #333333;
     font-family: 'Arial', sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    
   }
   
   .header {

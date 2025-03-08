@@ -1,63 +1,188 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
 import "./HomePage.css";
 
+const fadeInUp = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+};
+
+const fadeInLeft = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+};
+
+const fadeInRight = {
+  hidden: { opacity: 0, x: 50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+};
+
 const HomePage = () => {
-  const scrollToAbout = () => {
-    document.getElementById("about").scrollIntoView({ behavior: "smooth" });
+  const scrollToSection = (id) => {
+    document.getElementById(id).scrollIntoView({ behavior: "smooth" });
   };
 
   return (
+    
     <div className="homepage">
-      {/* Navbar */}
-      <nav className="navbar">
-        <h2></h2>
-        <div className="nav-links">
-          <Link to="/login" className="nav-item">Login</Link>
-          <Link to="/signup" className="nav-item">Sign Up</Link>
-          <a href="#about" className="nav-item" onClick={scrollToAbout}>About</a>
-          <Link to="/contact" className="nav-item">Contact</Link>
-        </div>
-      </nav>
+      <div className="navbar-container">
+        <nav className="navbar">
+          <h2></h2>
+          <div className="nav-links">
+            <a onClick={() => scrollToSection("hero")} className="nav-item">Home</a>
+            <Link to="/login" className="nav-item">Login</Link>
+            <Link to="/signup" className="nav-item">Sign Up</Link>
+            <a onClick={() => scrollToSection("about")} className="nav-item">About</a>
+            <a onClick={() => scrollToSection("contact")} className="nav-item">Contact</a>
+          </div>
+        </nav>
+      </div>
+
 
       {/* Hero Section */}
-      <header className="hero">
-        <h1>WoeCare</h1>
-        <p>Your trusted platform for mental well-being and emotional support </p>
-      </header>
-
-      {/* How It Works Section */}
-      <section className="how-it-works">
-        <h2>What's here</h2>
-        <div className="steps">
-          <div className="step">
-            <h3>📋 Take a Self-Assessment</h3>
-            <p>Answer simple questions about your mood, stress, and sleep. Get insights with AI analysis.</p>
-          </div>
-          <div className="step">
-            <h3>🤖 Chat with Our AI Assistant</h3>
-            <p>Instant support through conversations — WoeCare listens and offers self-care tips.</p>
-          </div>
-          <div className="step">
-            <h3>📅 Book a Therapy Session</h3>
-            <p>Find certified therapists and easily book sessions at your convenience.</p>
-          </div>
+      <motion.section
+        id="hero"
+        className="hero"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false }}
+        variants={fadeInUp}
+      >
+        <div className="hero-content">
+          <h1>WoeCare</h1>
+          <p>Your trusted platform for mental well-being and emotional support.</p>
+          <button onClick={() => scrollToSection("whats-here")} className="explore-btn">
+            Explore
+          </button>
         </div>
+        <motion.img
+          src={"wc.png"}
+          alt="WoeCare"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false }}
+          variants={fadeInRight}
+        />
+      </motion.section>
+      <section id="whats-here" class="whats-here">
+      <h2>What’s here</h2>
+      <p>Discover the features of WoeCare that help you track and improve your mental well-being.</p>
       </section>
+
+      {/* Feature Sections */}
+      {[
+        {
+          id: "test",
+          title: " Mental Health Test",
+          description:
+            "Understand your mental health through our AI-powered self-assessment. Our test helps identify stress, anxiety, and emotional states by analyzing your responses and providing personalized insights. Take control of your well-being with data-driven analysis.",
+          img: "test-image.png",
+          reverse: false,
+        },
+        {
+          id: "woebot",
+          title: " Chat with Woebot",
+          description:
+            "Woebot is your personal AI-powered mental health companion. Engage in real-time conversations to share your thoughts and feelings. Woebot listens, provides thoughtful responses, and offers self-care strategies tailored to your needs.",
+          img: "woebot-image.png",
+          reverse: true,
+        },
+        {
+          id: "therapy",
+          title: " Book a Therapist",
+          description:
+            "Connect with certified mental health professionals and book therapy sessions at your convenience. Our platform makes it easy to find the right therapist for your needs, ensuring a safe space for healing and growth.",
+          img: "therapy-image.png",
+          reverse: false,
+        },
+      ].map((section) => (
+        <motion.section
+          key={section.id}
+          className={`feature-section ${section.reverse ? "reverse" : ""}`}
+          id={section.id}
+        >
+          <motion.img
+            src={section.img}
+            alt={section.title}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false }}
+            variants={section.reverse ? fadeInLeft : fadeInRight}
+          />
+          <motion.div
+            className="feature-text"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false }}
+            variants={fadeInUp}
+          >
+            <h2>{section.title}</h2>
+            <p>{section.description}</p>
+          </motion.div>
+        </motion.section>
+      ))}
 
       {/* About Section */}
-      <section id="about" className="about">
-        <h2>About WoeCare</h2>
-        <p>At WoeCare, we believe that mental health matters. Our mission is to make emotional well-being accessible, supportive, and stigma-free. Whether you need a listening ear, expert advice, or simple self-care tools — we’re here for you. Through AI-driven insights, compassionate conversations, and access to certified therapists, WoeCare empowers you to take charge of your mental health journey.</p>
-      </section>
+      <motion.section
+        className="about"
+        id="about"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false }}
+      >
+        <motion.h2
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false }}
+          variants={fadeInUp}
+        >
+          About WoeCare
+        </motion.h2>
+        <motion.p
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false }}
+          variants={fadeInUp}
+        >
+          At WoeCare, we believe mental health is just as important as physical health.
+          Our mission is to provide accessible, reliable, and compassionate support
+          for your emotional well-being. We offer tools and resources that empower
+          individuals to understand their mental health, seek timely help, and grow
+          through reflection and self-care.
+        </motion.p>
+        <motion.p
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false }}
+          variants={fadeInUp}
+        >
+          Through AI-driven analysis, real-time conversations, and certified therapist
+          connections, we aim to reduce the stigma surrounding mental health. WoeCare
+          is not just a platform — it’s a movement toward a more mindful, supportive,
+          and understanding world.
+        </motion.p>
+      </motion.section>
 
-      {/* Features */}
-      <section className="features">
-        <h2>Explore WoeCare</h2>
-        <div className="feature-links">
-          <Link to="/signup">Sign up</Link>
-        </div>
-      </section>
+
+      {/* Contact Section */}
+      <motion.section
+        className="contact"
+        id="contact"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false }}
+        variants={fadeInUp}
+      >
+        <h2>Contact Us</h2>
+        <form>
+          <input type="text" placeholder="Your Name" required />
+          <input type="email" placeholder="Your Email" required />
+          <textarea placeholder="Your Message" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </motion.section>
 
       {/* Footer */}
       <footer className="footer">

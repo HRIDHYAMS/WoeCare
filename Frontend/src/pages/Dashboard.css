@@ -1,111 +1,110 @@
-/* Reset and General Styles */
+/* Global Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  html, body {
-    width: 100%;
-    height: 100%;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient( #a8edea , #fed6e3 );;
-    color: #201b10;
-  }
-  
-  /* Dashboard Layout */
-  .dashboard {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    justify-content: space-between;
-  }
-  
-  /* Header */
-  .dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #BACBD8;
-    padding: 15px 5%; /* Responsive padding */
-    width: 100vw; /* Full width */
-  }
-  
-  .dashboard-header h1 {
-    font-size: 2rem;
-    color: black;
-  }
-  
-  .dashboard-header ul {
-    display: flex;
-    list-style: none;
-    gap: 20px;
-  }
-  
-  .dashboard-header a {
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-  }
-  
-  .dashboard-header a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Main Section */
-  .dashboard-main {
-    text-align: center;
-    padding: 120px 5% 50px;
-  }
-  
-  .dashboard-main h2 {
-    font-size: 2.5rem;
-  }
-  
-  .dashboard-main p {
-    font-size: 1.2rem;
-    margin-bottom: 40px;
-  }
-  
-  /* Options Section */
-  .dashboard-options {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  
-  .option-box {
-    width: 100%;
-    max-width: 300px;
-    padding: 20px;
-    background: linear-gradient(90deg, #c9bda3, #b5ccde);
-    border-radius: 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .option-box h3 {
-    font-size: 1.5rem;
-    color: black;
-  }
-  
-  .option-box p {
-    color: #333;
-  }
-  
-  .option-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Footer */
-  .dashboard-footer {
-    text-align: center;
-    padding: 10px;
-    background: #BACBD8;
-    color: black;
-    width: 100vw; /* Full width */
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #a8edea, #fed6e3);
+  scroll-behavior: smooth;
+}
+
+/* Full-Width Navigation Bar */
+.woecare-dashboard-navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 5%;
+  background: transparent;
+  z-index: 1000;
+}
+
+.woecare-dashboard-navbar h2 {
+  font-size: 2rem;
+  color: #0077b6;
+}
+
+.woecare-dashboard-nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.woecare-dashboard-nav-item {
+  font-size: 1.2rem;
+  color: #0077b6;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.woecare-dashboard-nav-item:hover {
+  text-decoration: underline;
+}
+
+/* Combined Section: Title on Left - Links on Right */
+.woecare-dashboard-combined-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 100px 5%;
+  height: 100vh;
+}
+
+.woecare-dashboard-info {
+  flex: 1;
+  text-align: left;
+  color: #0077b6;
+}
+
+.woecare-dashboard-info h1 {
+  font-size: 4rem;
+  font-weight: 800;
+}
+
+.woecare-dashboard-info p {
+  font-size: 1.5rem;
+  margin-top: 10px;
+}
+
+.woecare-dashboard-feature-links {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.woecare-dashboard-feature-card {
+  background: #ffffff;
+  padding: 20px 30px;
+  border-radius: 25px;
+  min-width:300px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.woecare-dashboard-feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.woecare-dashboard-feature-link {
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #0077b6;
+}
+
+/* Full-Width Footer */
+.woecare-dashboard-footer {
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+}

@@ -1,4 +1,3 @@
-/* General Styles */
 * {
   margin: 0;
   padding: 0;
@@ -6,147 +5,308 @@
 }
 
 html, body {
-  width: 100%;
-  height: 100%;
-}
-
-.homepage {
-  font-family: 'Poppins', sans-serif;
-  background: #F2EDE2;
-  color: #201b10;
+  height: 100%; /* Ensures gradient covers the full page */
+  min-height: 100vh; /* Ensures even more */
   margin: 0;
   padding: 0;
-  min-height: 100vh;
-  width: 100vw;
-  overflow-x: hidden;
+  background: linear-gradient(135deg, #a8edea, #fed6e3);
 }
 
-/* Navbar */
-.navbar {
-  position: fixed; /* Sticks to the top */
+body::before {
+  content: '';
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%; /* Full-width */
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #a8edea, #fed6e3);
+  z-index: -1; /* Keeps it behind content */
+}
+
+
+.feature-text h2,
+.about h2,
+.contact h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+
+/* Fixed Navbar */
+.navbar {
+  position: fixed; /* Change from fixed to absolute */
+  top: 0;
+  width: 100%;
+  background: transparent; /* Remove the gradient background */
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  background: #BACBD8;
-  padding: 10px 5%; /* Responsive padding */
-  z-index: 1000;
-/* Ensures it stays above everything else */
-}
-
-.navbar h2 {
-  font-size: 2rem;
-}
-
-.nav-links {
-  display: flex;
-  gap: 20px;
+  padding: 10px 5%;
+  z-index: 1000;  /* Above everything else in the hero */
 }
 
 .nav-item {
-  text-decoration: none;
-  color: black;
+  color: #005f87; /* Darker blue for contrast */
   font-weight: bold;
+  font-size: 18px;
 }
 
 .nav-item:hover {
   text-decoration: underline;
 }
 
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  margin-right: 30px;
+}
+.nav-links a {
+  text-decoration: none;
+  color: #005f87; /* Keeps the same text color */
+}
+
+.navbar-container {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Main Content */
+.homepage {
+  background-color:linear-gradient( #a8edea , #fed6e3 ) ; 
+}
+
 /* Hero Section */
 .hero {
-  background: linear-gradient(90deg, #c9bda3, #b5ccde);
-  padding: 150px 5% 100px; /* Added extra padding on top so content isn't covered by navbar */
-  text-align: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 100px 5% 0px;
+  min-height: 100vh;
+  padding: 50px 5%;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #a8edea, #fed6e3, #ffcad4);
+  background-size: 200% 200%; /* Faster moving gradient */
+  animation: gradientAnimation 5s ease infinite;
+  z-index: 0;
+  opacity: 1; /* Make the gradient more visible */
 }
 
-.hero-content h1 {
-  font-size: 3rem;
-  margin-bottom: 10px;
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
 }
 
-.hero-content p {
+
+/* Animated WoeCare text in the background */
+.hero::after {
+  content: 'WoeCare';
+  position: absolute;
+  top: 25%;
+  left: 5%;
+  font-size: 10rem; /* Adjusted size */
+  font-weight: 800;
+  color: rgba(0, 87, 120, 0.15); /* Deeper blue with soft transparency */
+  z-index: 1; /* Make sure it's above the gradient but behind content */
+  animation: fadeInOut 6s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9; /* Increased visibility */
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+}
+.hero-content {
+  flex: 1;
+  z-index: 2;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  color: #0077b6;
+}
+
+.hero p {
   font-size: 1.2rem;
-  margin-bottom: 20px;
+  margin-top: 10px;
+  color: #0077b6;
 }
 
-.get-started {
-  background: #BACBD8;
+.hero img {
+  width: 50%;
+  max-height: 500px;
+  z-index: 2;
+}
+
+.explore-btn {
+  margin-top: 20px;
+  padding: 5px 30px;
+  width: 120px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffffff;
+  background: #00bcd4;
   border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
-  font-weight: bold;
+  border-radius: 50px;
   cursor: pointer;
-  border-radius: 20px;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.get-started:hover {
-  background: #201b10;
-  color: #F2EDE2;
+.explore-btn:hover {
+  background: #0077b6;
+  transform: scale(1.05);
 }
-
-/* How It Works */
-.how-it-works {
+.whats-here {
   text-align: center;
-  padding: 50px 5%; /* Responsive padding */
-  width: 100%;
+  padding: 100px 5%;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; /* Choose a different, elegant font */
 }
 
-.steps {
+.whats-here h2 {
+  font-size: 3rem;
+  color: #0077b6;
+}
+
+.whats-here p {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* Feature Sections */
+.feature-section {
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 80vh; /* Ensure equal height */
+  padding: 50px;
 }
 
-.step {
-  background: #BACBD8;
-  padding: 20px;
-  border-radius: 10px;
-  width: 100%; /* Ensures steps fill the available space */
-  max-width: 250px;
-  transition: transform 0.3s;
+.feature-section img {
+  width: 40%;
+  height: auto;
 }
 
-.step:hover {
-  transform: translateY(-5px);
+.feature-text {
+  width: 50%;
 }
 
-/* Features */
-.features {
-  text-align: center;
-  padding: 50px 5%; /* Responsive padding */
-  width: 100%;
+
+.feature-section:nth-child(even) {
+  flex-direction: row-reverse;
 }
 
-.feature-links {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-/* Footer */
-.footer {
-  background: #BACBD8; /* Same as navbar */
-  text-align: center;
-  padding: 20px 5%; /* Consistent padding */
-  color: #201b10; /* Matching text color */
-  font-weight: bold;
-  position: relative; /* Keeps it at the bottom without being fixed */
-  width: 100%; /* Full-width */
+
+.feature-text h2 {
+  font-size: 2.5rem;
+  color: #0077b6;
 }
 
-.footer p {
-  margin: 0;
+.feature-text p {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  line-height: 1.8;
 }
+
+.feature-section img {
+  width: 40%;
+  max-height: 400px;
+}
+
 /* About Section */
 .about {
   text-align: center;
-  padding: 50px 5%;
-  background: #E5DCC3; /* Soft contrast but still fitting the theme */
-  border-radius: 10px;
-  margin: 20px 5%;
+  padding: 100px 5%;
+ 
+
+}
+
+.about h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #0077b6;
+}
+
+.about p {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+/* Contact Section */
+.contact {
+  display: flex;
+  align-items: center;
+  justify-content:space-around;
+  min-height: 50vh; /* Ensure equal height */
+  padding: 10px;
+}
+
+.contact h2 {
+  font-size: 2rem;
+  color: #0077b6;
+}
+
+.contact form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+input, textarea, button {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+button {
+  background: #0077b6;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #005f87;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  background: #bacbd8;
+  padding: 10px;
 }

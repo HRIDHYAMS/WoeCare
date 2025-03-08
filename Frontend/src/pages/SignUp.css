@@ -8,104 +8,121 @@ html, body {
 }
 
 .signup-page {
-  background:linear-gradient(#a8edea,#fed6e3); /* Ensure full-page color */
-  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url('gif7.gif') no-repeat center center;
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 2;
 }
 
 /* Signup container styling */
 .signup-container {
-  width: 100%;
-  max-width: 400px;
-  padding: 30px;
-  background: #BACBD8; /* Keep background */
+  width: 400px;
+  max-width: 700px; /* Adjusted for better fit */
+  padding: 10px; /* Reduced padding */
+  background: transparent; /* Transparent background */
   border-radius: 10px;
   text-align: center;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Slightly sharper shadow */
   display: flex;
-  flex-direction: column; /* Ensure proper spacing */
+  flex-direction: column;
   align-items: center;
+  backdrop-filter: blur(10px); /* Subtle glassmorphism effect */
 }
 
 /* Heading */
 .signup-container h2 {
   color: black;
-  margin-bottom: 15px;
+  font-size: 1.4rem; /* Slightly smaller heading */
+  margin-bottom: 5px; /* Tightened space */
 }
 
 /* Input fields */
 input {
   width: 100%;
-  padding: 14px;
-  margin: 12px 0; /* Increased margin for spacing */
-  border: none;
+  padding: 10px; /* Adjusted padding */
+  margin: 8px 0; /* Reduced margin */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Slight border */
   border-radius: 5px;
-  background: #F2EDE2; /* Match container */
+  background: transparent; /* Transparent inputs */
   color: black;
-  font-size: 1rem;
+  font-size: 0.9rem; /* Slightly smaller text */
   display: block;
+  backdrop-filter: blur(5px);
+}
+
+/* Placeholder styling */
+input::placeholder {
+  color: black;
+  opacity: 0.8;
 }
 
 /* Signup button */
 .signup-btn {
   width: 100%;
-  padding: 12px;
-  background: linear-gradient(90deg, #c9bda3, #b5ccde);
-  border: none;
+  padding: 8px; /* Adjusted button padding */
+  background: transparent;
+  border: 1px solid black;
   font-weight: bold;
   color: black;
   cursor: pointer;
   border-radius: 5px;
-  transition: 0.3s;
-  margin-top: 10px;
+  transition: 0.3s ease-in-out;
 }
 
 .signup-btn:hover {
-  box-shadow: 0 0 15px #201b10;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 15px rgba(32, 27, 16, 0.5);
 }
 
 /* Google sign-in button */
 .google-btn {
   width: 100%;
-  padding: 12px;
-  background: #795a57;
-  color: white;
+  max-width: 250px;;
+  padding: 8px; /* Adjusted button padding */
+  background: transparent;
+  border: 1px solid black;
   font-weight: bold;
-  border: none;
-  border-radius: 5px;
+  color: black;
   cursor: pointer;
-  transition: 0.3s;
-  margin-top: 10px;
+  border-radius: 5px;
+  transition: 0.3s ease-in-out;
+  
 }
 
 .google-btn:hover {
-  background: #c1351d;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 15px rgba(32, 27, 16, 0.5);
 }
 
 /* Role selection radio buttons */
 .role-selection {
-  margin: 15px 0;
+  margin: 8px 0;
   display: flex;
   justify-content: center;
-  gap: 20px; /* Spacing between radio buttons */
+  gap: 15px; /* Tightened gap */
 }
 
 .role-selection label {
-  font-size: 1rem;
+  font-size: 0.9rem; /* Adjusted text size */
   color: black;
 }
-/* Styling for the form labels */
+
+/* Form group styling */
 .form-group {
-  margin: 12px 0;
+  margin: 8px 0;
   text-align: left;
 }
 
 label {
-  font-size: 1rem;
+  font-size: 0.9rem; /* Slightly smaller labels */
   color: black;
   display: block;
-  margin-bottom: 6px;
-
+  margin-bottom: 4px; /* Tightened spacing */
 }

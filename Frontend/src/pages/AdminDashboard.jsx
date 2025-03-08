@@ -1,78 +1,67 @@
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
-  const navigate = useNavigate();
-
-  const handleLogout = (event) => {
-    event.preventDefault(); // Prevents default link behavior
-    console.log("Logging out...");
-    navigate("/login"); // Redirect to login page
-  };
-
   return (
-    <div className="dashboard">
-      {/* Header */}
-      <header className="dashboard-header">
-        <h1>WoeCare</h1>
-        <nav>
-          <ul>
-            <li>
-              <button onClick={handleLogout} className="logout-button">
-                Logout
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </header>
-
-      {/* Main Content */}
-      <main className="dashboard-main">
-        <h2>Admin Dashboard</h2>
-        <p>Your partner in emotional well-being</p>
-
-        <div className="dashboard-options">
-          <div
-            className="option-box"
-            role="button"
-            tabIndex="0"
-            onClick={() => navigate("/questionnaire")}
-            onKeyDown={(e) => e.key === "Enter" && navigate("/questionnaire")}
-          >
-            <h3>Manage Users</h3>
-            <p></p>
-          </div>
-
-          <div
-            className="option-box"
-            role="button"
-            tabIndex="0"
-            onClick={() => navigate("/chatbot")}
-            onKeyDown={(e) => e.key === "Enter" && navigate("/chatbot")}
-          >
-            <h3>Manage Therapists</h3>
-            <p></p>
-          </div>
-
-          <div
-            className="option-box"
-            role="button"
-            tabIndex="0"
-            onClick={() => navigate("/slot-booking")}
-            onKeyDown={(e) => e.key === "Enter" && navigate("/slot-booking")}
-          >
-            <h3>Manage Appointments</h3>
-            <p></p>
-          </div>
+    <>
+      {/* Full-Width Navigation Bar */}
+      <nav className="woecare-admin-dashboard-navbar">
+        <h2></h2>
+        <div className="woecare-admin-dashboard-nav-links">
+          <Link to="/login" className="woecare-admin-dashboard-nav-item">
+            Logout
+          </Link>
         </div>
-      </main>
+      </nav>
 
-      {/* Footer */}
-      <footer className="dashboard-footer">
-        <p>© {new Date().getFullYear()} WoeCare. All rights reserved.</p>
+      {/* Combined Section: Title, Description on Left - Feature Links on Right */}
+      <section className="woecare-admin-dashboard-combined-section">
+        <div className="woecare-admin-dashboard-info">
+          <motion.h1
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1 }}
+          >
+            WoeCare Admin
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.2 }}
+          >
+            Manage and oversee the platform efficiently.
+          </motion.p>
+        </div>
+
+        <div className="woecare-admin-dashboard-feature-links">
+          <motion.div
+            className="woecare-admin-dashboard-feature-card"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link to="/manage-users" className="woecare-admin-dashboard-feature-link">
+              Manage Therapists
+            </Link>
+          </motion.div>
+          <motion.div
+            className="woecare-admin-dashboard-feature-card"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link to="/view-reports" className="woecare-admin-dashboard-feature-link">
+              Manage Slot Booking
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Full-Width Footer */}
+      <footer className="woecare-admin-dashboard-footer">
+        <p>&copy; 2025 WoeCare. All Rights Reserved.</p>
       </footer>
-    </div>
+    </>
   );
 };
 

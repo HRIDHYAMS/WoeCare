@@ -128,7 +128,7 @@ const Chatbot = () => {
   // Gradually display bot response without appending undefined
   const displayBotResponse = (data) => {
     const botMessageId = `botMessage-${messageCountRef.current++}`;
-    appendMessage("bot", "", botMessageId);
+    appendMessage("model", "", botMessageId);
 
     let index = 0;
     let currentText = "";
@@ -156,7 +156,7 @@ const Chatbot = () => {
         {messages.map((msg, index) => (
           <div key={index} className={`message ${msg.sender}`}>
             <div className="msg-header">
-              {msg.sender === "user" ? "You" : "Bot"}
+              {msg.sender === "user" ? "You" : "WoeBot"}
             </div>
             <div className="msg-body">{msg.message}</div>
           </div>
