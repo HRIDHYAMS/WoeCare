@@ -41,6 +41,8 @@ const HomePage = () => {
         </nav>
       </div>
 
+      {console.log('Hero section rendering')}
+      {console.log(document.querySelector('.hero'))}
 
       {/* Hero Section */}
       <motion.section
@@ -92,7 +94,7 @@ const HomePage = () => {
         },
         {
           id: "therapy",
-          title: " Book a Therapist",
+          title: " Consult a Therapist",
           description:
             "Connect with certified mental health professionals and book therapy sessions at your convenience. Our platform makes it easy to find the right therapist for your needs, ensuring a safe space for healing and growth.",
           img: "therapy-image.png",

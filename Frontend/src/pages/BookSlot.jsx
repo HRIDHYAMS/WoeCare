@@ -72,7 +72,7 @@ const BookSlot = () => {
       {responseMessage && <p className="response">{responseMessage}</p>}
       {slotId && <p className="slot-id">Your Slot ID: {slotId}</p>} {/* Displays Slot ID separately */}
 
-      <p className="go-back-text" onClick={() => navigate("/Slotbooking")}>
+      <p className="go-back-text" onClick={() => navigate("/slotbooking")}>
         ← Go Back
       </p>
     </div>

@@ -11,11 +11,9 @@ html, body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #a8edea, #fed6e3);
     display: flex;
-    justify-content: center;
-    align-items: center;
+  
 }
 
-/* Container - Increased size */
 .cancel-slot-container {
     background: #f4f2f2;
     padding: 50px; /* Increased padding */
@@ -24,14 +22,27 @@ html, body {
     text-align: center;
     max-width: 500px; /* Increased width */
     width: 95%;
-}
+  
+    /* Centering using flexbox */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  
+    /* Full-page centering */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  
 
 /* Title */
 .cancel-slot-container h2 {
     font-size: 2rem;
     color: #0077b6;
     margin-bottom: 20px;
-    font-family:"Dancing Script", cursive;
 
 }
 

@@ -27,6 +27,7 @@ const CancelSlot = () => {
   };
 
   return (
+    <div className="cancel-slot-page">
     <div className="cancel-slot-container">
       <h2>Cancel a Slot</h2>
       <form onSubmit={handleSubmit}>
@@ -41,8 +42,10 @@ const CancelSlot = () => {
         <button type="submit">Cancel Slot</button>
       </form>
       {responseMessage && <p>{responseMessage}</p>}
-      <p className="go-back-text" onClick={() => navigate("/")}>← Go Back</p>
+      <p className="go-back-text" onClick={() => navigate("/slotbooking")}>← Go Back</p>
     </div>
+  </div>
+  
   );
 };
 

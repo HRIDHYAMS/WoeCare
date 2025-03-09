@@ -4,22 +4,24 @@ import { Link } from "react-router-dom";
 
 const SlotBooking = () => {
   return (
-    <div className="slot-booking-container">
-      <h1 className="heading">Book Your Psychiatrist</h1>
-      <p className="description">
+    <div className="woecare-slot-page">
+    <div className="woecare-slot-container">
+      <h1 className="woecare-slot-heading">Book your slot</h1>
+      <p className="woecare-slot-description">
         Schedule an appointment with a professional psychiatrist at your convenience.
         Manage your mental well-being with ease.
       </p>
-      <div className="button-container">
-        <Link to="/Bookslot">
-          <button className="booking-btn">Book Slot</button>
+      <div className="woecare-slot-button-container">
+        <Link to="/bookslot">
+          <button className="woecare-slot-booking-btn">Book Slot</button>
         </Link>
-        <Link to="/Cancel">
-        <button className="cancel-btn">Cancel Slot</button>
+        <Link to="/cancelslot">
+          <button className="woecare-slot-cancel-btn">Cancel Slot</button>
         </Link>
-       
       </div>
     </div>
+  </div>
+  
   );
 };
 
