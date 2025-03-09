@@ -1,8 +1,13 @@
+.hero {
+  padding-top: 80px; /* Adjust this value based on navbar height */
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 
 html, body {
   height: 100%; /* Ensures gradient covers the full page */

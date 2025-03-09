@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -66,7 +67,7 @@ const HomePage = () => {
           variants={fadeInRight}
         />
       </motion.section>
-      <section id="whats-here" class="whats-here">
+      <section id="whats-here" className="whats-here">
       <h2>What’s here</h2>
       <p>Discover the features of WoeCare that help you track and improve your mental well-being.</p>
       </section>

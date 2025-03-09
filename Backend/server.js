@@ -5,9 +5,17 @@ import multer from "multer";
 import fs from "fs";
 import cors from "cors";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import slotRoutes from "./routes/slotRoutes.js";
+import admin from "firebase-admin";
+import { db } from "./firebase.js";
 
 // Load environment variables from .env file
 dotenv.config();
+// Ensure Firebase credentials are available
+if (!process.env.FIREBASE_CREDENTIALS) {
+  console.error("Error: FIREBASE_CREDENTIALS is missing in the .env file");
+  process.exit(1);
+}
 
 const app = express();
 const uploads = multer({ dest: "uploads/" });
@@ -95,7 +103,8 @@ app.post("/submit", (req, res) => {
     message: resultText,
   });
 });
-
+// Slot booking system routes
+app.use("/slots", slotRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
