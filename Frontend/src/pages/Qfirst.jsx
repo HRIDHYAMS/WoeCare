@@ -45,7 +45,6 @@ const Qfirst = () => {
       variant="h3"
       fontWeight="bold"
       color="#0077b6"
-      fontFamily="'Dancing Script', cursive"
     >
       Take a Mental Health Test
     </Typography>

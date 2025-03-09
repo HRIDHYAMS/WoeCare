@@ -41,8 +41,9 @@ html, body {
 
 /* Heading */
 .login-container h2 {
-  color: black;
+  color: #005f87;
   margin-bottom: 15px;
+  font-weight: bold;
 }
 
 /* Input fields */
@@ -52,7 +53,7 @@ input {
   margin: 12px 0; /* Increased margin for spacing */
   border: none;
   border-radius: 5px;
-  background: #F2EDE2; /* Match container */
+  background: white; /* Match container */
   color: black;
   font-size: 1rem;
   display: block;
@@ -62,10 +63,10 @@ input {
 .login-btn {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(90deg, #c9bda3, #b5ccde);
+  background: linear-gradient( #a8edea , #fed6e3 ) ; 
   border: none;
   font-weight: bold;
-  color: black;
+  color: #005f87;
   cursor: pointer;
   border-radius: 5px;
   transition: 0.3s;
@@ -73,16 +74,15 @@ input {
 }
 
 .login-btn:hover {
-  box-shadow: 0 0 15px #201b10;
+  background: #7b9eac;
 }
-
 /* Google login button */
 .google-btn {
   width: 100%;
   max-width: 300px;
   padding: 12px;
-  background: #795a57;
-  color: white;
+  background: linear-gradient( #a8edea , #fed6e3 ) ; ;
+  color: #005f87;
   font-weight: bold;
   border: none;
   border-radius: 5px;
@@ -92,7 +92,7 @@ input {
 }
 
 .google-btn:hover {
-  background: #c1351d;
+  background: #7b9eac;
 }
 
 /* Role selection radio buttons */

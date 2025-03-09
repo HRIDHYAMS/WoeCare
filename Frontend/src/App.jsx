@@ -17,7 +17,7 @@ import Ptest from "./pages/Ptest";
 import SlotBooking from  "./pages/Slotbooking";
 import BookSlot from  "./pages/BookSlot";
 import Cancel from  "./pages/Cancel";
-
+import AddTherapist from "./pages/AddTherapist"; 
 
 function App() {
   return (
@@ -42,6 +42,7 @@ function App() {
         <Route path="/slotbooking" element={<SlotBooking />} />
         <Route path="/bookslot" element={<BookSlot />} />
         <Route path="/cancelslot" element={<Cancel />} />      
+        <Route path="/therapists" element={<AddTherapist />} />
       </Routes>
     </Router>
   );

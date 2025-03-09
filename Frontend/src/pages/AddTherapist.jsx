@@ -41,7 +41,7 @@ const AddTherapist = () => {
         <input
           type="text"
           name="education"
-          placeholder="Education"
+          placeholder="Qualification"
           value={formData.education}
           onChange={handleChange}
           required
