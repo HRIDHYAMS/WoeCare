@@ -41,7 +41,7 @@ const Dashboard = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Link to="/Quest" className="woecare-dashboard-feature-link">
+            <Link to="/Qfirst" className="woecare-dashboard-feature-link">
               Take Mental Health Test
             </Link>
           </motion.div>

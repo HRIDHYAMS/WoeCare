@@ -2,21 +2,17 @@ import React, { useState } from "react";
 import { Container, Typography, Button, Card, CardContent, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Alert } from "@mui/material";
 
 const questions = [
-  "Do you often experience this: 'I am so stressed out'?",
-  "How often do you compare yourself to others?",
-  "Do you often experience this: 'I feel stuck'?",
-  "Do you often feel that you lack motivation to do daily tasks?",
-  "Do you often experience this: 'I am so burned out'?",
-  "Do you often experience this: 'I can't take it anymore'?",
-  "Do you often experience this: 'I am so depressed'?",
-  "How often do you experience sleeplessness?",
-  "Do you often experience this: 'I have anxiety problems'?",
-  "Do you often experience this: 'I feel great today'?",
-  "How often do you feel overwhelmed by your responsibilities?",
-  "Do you find it difficult to concentrate on tasks for extended periods?",
-  "How often do you feel disconnected from people around you?",
-  "Do you struggle to find joy in activities you once enjoyed?",
-  "How often do you feel physically exhausted without any clear reason?"
+  "Felt sad, down, or hopeless",
+  "Do you feel tired or have low energy most of the time?",
+  "How often do you feel like you lack interest or pleasure in activities you used to enjoy?",
+  "Do you frequently feel nervous, anxious, or on edge?",
+  "How often do you have trouble relaxing or calming down?",
+  "Do you feel overwhelmed by your daily responsibilities (school, family, social life)?",
+  "How well have you been sleeping in the past two weeks?",
+  "Do you find it difficult to focus or concentrate on tasks?",
+  "Do you feel like you have supportive friends or family members you can talk to?",
+  "Have you ever had thoughts of hurting yourself or others?",
+  "Do you engage in unhealthy coping mechanisms (self-harm, substance use, etc.)?"
 ];
 
 const scoreMapping = {
@@ -27,7 +23,7 @@ const scoreMapping = {
   Always: 4,
 };
 
-const Quest = () => {
+const Ymht = () => {
   const [responses, setResponses] = useState({});
   const [result, setResult] = useState(null);
   const [error, setError] = useState(false);
@@ -51,7 +47,7 @@ const Quest = () => {
     let status = "";
     let resultText = "";
 
-    if (totalScore <= 15) {
+    if (totalScore <= 10) {
       status = "Low Risk / Safe Mode";
       resultText =
         "Great news! Your responses indicate that you are currently experiencing good mental health.\n" +
@@ -60,7 +56,7 @@ const Quest = () => {
         ">> Nurturing relationships: Social connections provide emotional support.\n" +
         ">> Mindfulness: Continue practicing mindfulness or relaxation techniques to stay grounded.\n" +
         "If you ever feel that your mental health starts to shift, don't hesitate to explore additional resources or reach out for support.";
-    } else if (totalScore <= 40) {
+    } else if (totalScore <= 25) {
       status = "Moderate / Intermediate";
       resultText =
         "Thank you for sharing your thoughts. You are currently experiencing moderate mental health challenges.\n" +
@@ -93,7 +89,7 @@ const Quest = () => {
       )
     ));
     setResult(
-      <Card sx={{ mt: 3, p: 2, bgcolor: " #f9f9f9" }}>
+      <Card sx={{ mt: 3, p: 2, bgcolor: "#f9f9f9" }}>
         <CardContent>
           <Typography variant="h6" sx={{ color: "#1e8449", fontWeight: "bold" }}>🏆 Total Score: {totalScore}</Typography>
           <Typography variant="h6" sx={{ color: "#2980b9", fontWeight: "bold" }}>📊 Mental Health Status: {status}</Typography>
@@ -105,66 +101,66 @@ const Quest = () => {
 
   return (
     
-    <Container
-    maxWidth="md"
-    sx={{
-      mt: 4,
-      bgcolor: " #fed6e3",
-      p: 3,
-      borderRadius: 2,
-      background: "linear-gradient(135deg, transparent, #fed6e3)", // ✅ Gradient background applied
-    }}
-  >
-    <Typography
-  variant="h4"
-  align="center"
-  gutterBottom
-  sx={{ color: "#2c3e50", fontWeight: "bold" }} // ✅ Title is now bold
->
-  General Mental Health Test
-</Typography>
-
-  
-    {questions.map((question, index) => (
-      <Card key={index} sx={{ mb: 2, p: 2, bgcolor: "rgb(238, 232, 234)", borderRadius: 2 }}>
-        <CardContent>
-          <FormControl component="fieldset">
-            <FormLabel sx={{ fontWeight: "bold", color: " #2c3e50" }}>{question}</FormLabel>
-            <RadioGroup
-              onChange={(e) => handleOptionChange(question, e.target.value)}
-              sx={{ flexDirection: "column" }} // ✅ Options arranged vertically
-            >
-              {Object.keys(scoreMapping).map((option) => (
-                <FormControlLabel key={option} value={option} control={<Radio />} label={option} sx={{ mt: 1 }} />
-              ))}
-            </RadioGroup>
-          </FormControl>
-        </CardContent>
-      </Card>
-    ))}
-  
-  <Button 
-  variant="contained" 
-  color="transparemt" 
-  fullWidth sx={{ 
-    mt: 2, 
-    py: 1.5, 
-    display: "block", 
-    width: "50%",
-    maxWidth: "600px",
-    justifyContent: "center", // ✅ Centers text inside the button
-    mx: "auto", // ✅ Centers the button itself
-  }} 
-  onClick={handleSubmit}
->
-  Submit
-</Button>
-
-
-    {error && <Alert severity="error" sx={{ mt: 2 }}>⚠️ Please answer all questions before submitting.</Alert>}
-    {result}
-  </Container>
-  );
-} 
-
-export default Quest;
+     <Container
+         maxWidth="md"
+         sx={{
+           mt: 4,
+           bgcolor: " #fed6e3",
+           p: 3,
+           borderRadius: 2,
+           background: "linear-gradient(135deg, transparent, #fed6e3)", // ✅ Gradient background applied
+         }}
+       >
+         <Typography
+       variant="h4"
+       align="center"
+       gutterBottom
+       sx={{ color: "#2c3e50", fontWeight: "bold" }} // ✅ Title is now bold
+     >
+       Youth Mental Health Test
+     </Typography>
+     
+       
+         {questions.map((question, index) => (
+           <Card key={index} sx={{ mb: 2, p: 2, bgcolor: "rgb(238, 232, 234)", borderRadius: 2 }}>
+             <CardContent>
+               <FormControl component="fieldset">
+                 <FormLabel sx={{ fontWeight: "bold", color: " #2c3e50" }}>{question}</FormLabel>
+                 <RadioGroup
+                   onChange={(e) => handleOptionChange(question, e.target.value)}
+                   sx={{ flexDirection: "column" }} // ✅ Options arranged vertically
+                 >
+                   {Object.keys(scoreMapping).map((option) => (
+                     <FormControlLabel key={option} value={option} control={<Radio />} label={option} sx={{ mt: 1 }} />
+                   ))}
+                 </RadioGroup>
+               </FormControl>
+             </CardContent>
+           </Card>
+         ))}
+       
+       <Button 
+       variant="contained" 
+       color="transparemt" 
+       fullWidth sx={{ 
+         mt: 2, 
+         py: 1.5, 
+         display: "block", 
+         width: "50%",
+         maxWidth: "600px",
+         justifyContent: "center", // ✅ Centers text inside the button
+         mx: "auto", // ✅ Centers the button itself
+       }} 
+       onClick={handleSubmit}
+     >
+       Submit
+     </Button>
+     
+     
+         {error && <Alert severity="error" sx={{ mt: 2 }}>⚠️ Please answer all questions before submitting.</Alert>}
+         {result}
+       </Container>
+       );
+     } 
+     
+export default Ymht;

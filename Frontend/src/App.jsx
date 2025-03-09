@@ -6,10 +6,7 @@ import Dashboard from "./pages/Dashboard"; // Fixed case sensitivity issue
 import Chatbot from "./pages/Chatbot"; // Added chatbot route
 import AdminDashboard from "./pages/AdminDashboard"; // Import Admin Dashboard
 import Quest from "./pages/Quest";
-import SlotBooking from "./pages/Slotbooking";
-import BookSlot from "./pages/BookSlot";
-import  CancelSlot from "./pages/Cancel"; 
-import   AddTherapist from "./pages/AddTherapist";     
+
 function App() {
   return (
     <Router>
@@ -22,11 +19,6 @@ function App() {
         <Route path="/chatbot" element={<Chatbot />} /> {/* Chatbot page */}
         <Route path="/admindashboard" element={<AdminDashboard />} /> {/* Admin Dashboard */}
         <Route path="/Quest" element={<Quest />} />
-        <Route path="/Slotbooking" element={< SlotBooking/>} />
-        <Route path="/Bookslot" element={<BookSlot />} />
-        <Route path="/Cancel" element={< CancelSlot />} />
-        <Route path="/therapist" element={< AddTherapist />} />
-
       </Routes>
     </Router>
   );
