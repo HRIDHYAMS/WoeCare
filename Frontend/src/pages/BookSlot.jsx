@@ -28,8 +28,16 @@ const BookSlot = () => {
       const data = await res.json();
 
       if (res.ok) {
-        setSlotId(data.slotId); // Store the slot ID
-        setResponseMessage("Slot booked successfully!");
+        if (data.waitingListPosition !== undefined && data.waitingListPosition !== null) {
+          setResponseMessage(
+            `Slots are full. You've been added to the waiting list. Your position: ${data.waitingListPosition}`
+          );
+        } else if (data.slotId) {
+          setSlotId(data.slotId);
+          setResponseMessage(`Slot booked successfully! Your Slot ID: ${data.slotId}`);
+        } else {
+          setResponseMessage(data.message || "Failed to book slot.");
+        }
       } else {
         setResponseMessage(data.message || "Failed to book slot.");
       }
@@ -37,7 +45,7 @@ const BookSlot = () => {
       setResponseMessage("Error booking slot. Please try again.");
     }
   };
-
+  
   return (
     <div className="book-slot-container">
       <h2>Book a Slot</h2>

@@ -50,7 +50,7 @@ const AdminDashboard = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Link to="/view-reports" className="woecare-admin-dashboard-feature-link">
+            <Link to="/manageslots" className="woecare-admin-dashboard-feature-link">
               Manage Slot Booking
             </Link>
           </motion.div>
