@@ -1,0 +1,76 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    height: 100%; /* Ensures gradient covers the full page */
+    min-height: 100vh; /* Ensures even more */
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #a8edea, #fed6e3);
+  }
+  
+  /* Container Styling */
+  .manage-slots-container {
+    max-width: 800px;
+    margin: 100px auto 50px; /* Adjusting margin for fixed navbar */
+    padding: 20px;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Heading */
+  .manage-slots-container h2 {
+    font-size: 2rem;
+    color: #0077b6;
+    margin-bottom: 20px;
+  }
+  
+  /* Slots List */
+  .slot-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  /* Individual Slot */
+  .slot-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f4f4f4;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .slot-item:hover {
+    background: #e0e0e0;
+  }
+  
+  /* Slot Information */
+  .slot-info {
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
+  /* Cancel Button */
+  .cancel-button {
+    background: none;
+    border: none;
+    color: #ff0000;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, color 0.3s;
+  } 
+  .cancel-button:hover {
+    transform: scale(1.1);
+    color: #cc0000;
+  }
+  
