@@ -17,7 +17,9 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;  // Extract the user object
+    localStorage.setItem("email", user.email);
       if (role === "admin") {
         navigate('/admindashboard'); // Redirect Admins
       } else {
@@ -34,6 +36,7 @@ const Login = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       console.log("Google Login Success:", user);
+      localStorage.setItem("email", user.email)
       
       if (role === "admin") {
         navigate('/admindashboard'); // Redirect Admins
