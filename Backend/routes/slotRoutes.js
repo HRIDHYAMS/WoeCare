@@ -22,27 +22,67 @@ const MAX_SLOTS = 5;
 router.post("/book", async (req, res) => {
     try {
         console.log("Booking slot...");
+        console.log("Received request body:", req.body);
 
-        const { bookedBy, email, registerNumber } = req.body;  // Added registerNumber
-        if (!bookedBy || !email || !registerNumber) {
+        const { name, registerNumber, email, urgent } = req.body;
+
+        if (!name || !registerNumber || !email || urgent === undefined) {
+            console.log("Missing required parameters:", { name, registerNumber, email, urgent });
             return res.status(400).json({ error: "Missing required parameters" });
         }
 
+        console.log("Checking if email already has a booked slot...");
         const slotsCollection = collection(db, "slots");
-        const bookedSlotsQuery = query(slotsCollection, where("status", "==", "booked"));
-        const bookedSlotsSnapshot = await getDocs(bookedSlotsQuery);
-        const bookedSlotsCount = bookedSlotsSnapshot.size;
+        const existingSlotQuery = query(slotsCollection, where("email", "==", email));
+        const existingSlotSnapshot = await getDocs(existingSlotQuery);
 
-        if (bookedSlotsCount >= MAX_SLOTS) {
+        if (!existingSlotSnapshot.empty) {
+            console.log("User has already booked a slot:", email);
+            return res.status(400).json({ error: "You have already booked a slot." });
+        }
+
+        console.log("Checking total slots count...");
+        const slotsSnapshot = await getDocs(slotsCollection);
+        const totalSlotsCount = slotsSnapshot.size;
+        console.log(`Total slots count: ${totalSlotsCount}`);
+
+        if (totalSlotsCount >= MAX_SLOTS) {
+            if (urgent) {
+                console.log("Slots are full. Checking for non-urgent slots to replace...");
+
+                const nonUrgentSlotQuery = query(slotsCollection, where("urgent", "==", false), limit(1));
+                const nonUrgentSlotSnapshot = await getDocs(nonUrgentSlotQuery);
+
+                if (!nonUrgentSlotSnapshot.empty) {
+                    const nonUrgentSlotDoc = nonUrgentSlotSnapshot.docs[0];
+                    const nonUrgentSlotRef = doc(db, "slots", nonUrgentSlotDoc.id);
+                    await updateDoc(nonUrgentSlotRef, {
+                        name,
+                        registerNumber,
+                        email,
+                        urgent: true,
+                        time: new Date().toISOString(),
+                    });
+
+                    console.log("Urgent slot booked by replacing a non-urgent booking.");
+                    return res.status(200).json({ message: "Urgent slot booked by replacing a non-urgent booking" });
+                }
+            }
+
+            console.log("No non-urgent slots available. Adding to waiting list...");
             await addDoc(collection(db, "waiting_list"), {
-                bookedBy, 
-                email, 
-                registerNumber,  // Store registerNumber in waiting list
+                name,
+                registerNumber,
+                email,
+                urgent,
                 timestamp: new Date(),
             });
+
+            console.log("Added to waiting list successfully");
             return res.status(200).json({ message: "Slots are full. You have been added to the waiting list." });
         }
 
+        console.log("Generating new slot ID...");
         const latestSlotQuery = query(slotsCollection, orderBy("slotId", "desc"), limit(1));
         const latestSlotSnapshot = await getDocs(latestSlotQuery);
         let newSlotId = 1;
@@ -50,26 +90,34 @@ router.post("/book", async (req, res) => {
             newSlotId = latestSlotSnapshot.docs[0].data().slotId + 1;
         }
 
+        console.log(`New slot ID: ${newSlotId}`);
+
         const now = new Date();
         const time = now.toLocaleTimeString();
         const date = now.toISOString().split("T")[0];
 
-        const newSlotRef = await addDoc(collection(db, "slots"), {
+        console.log(`Booking slot: ID=${newSlotId}, Name=${name}, Email=${email}, Urgent=${urgent}, Time=${time}, Date=${date}`);
+
+        await addDoc(slotsCollection, {
             slotId: newSlotId,
-            bookedBy, 
-            email, 
-            registerNumber,  // Store registerNumber in slots collection
+            name,
+            registerNumber,
+            email,
+            urgent,
             time,
             date,
             status: "booked",
         });
 
-        return res.status(200).json({ message: "New slot booked successfully", slotId: newSlotId});
+        console.log("Slot booked successfully");
+        return res.status(200).json({ message: "New slot booked successfully", slotId: newSlotId });
+
     } catch (error) {
         console.error("Error booking slot:", error);
         return res.status(500).json({ error: error.message });
     }
 });
+
 
 
 router.post("/cancel", async (req, res) => {
