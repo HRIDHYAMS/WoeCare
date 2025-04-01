@@ -19,7 +19,7 @@ import BookSlot from  "./pages/BookSlot";
 import Cancel from  "./pages/Cancel";
 import AddTherapist from "./pages/AddTherapist"; 
 import ManageSlots from "./pages/ManageSlots"; 
-
+import Score from "./pages/Score"; 
 
 function App() {
   return (
@@ -46,6 +46,7 @@ function App() {
         <Route path="/cancelslot" element={<Cancel />} />      
         <Route path="/therapists" element={<AddTherapist />} />
         <Route path="/manageslots" element={<ManageSlots />} />
+        <Route path="/score" element={<Score />} />
       </Routes>
     </Router>
   );

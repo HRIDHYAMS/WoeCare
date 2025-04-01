@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { Container, Typography, Button, Card, CardContent, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Alert } from "@mui/material";
+import { updateUserScore } from "../../../Backend/firebase"; // Import function
+import { getAuth, onAuthStateChanged } from "firebase/auth"; // ✅ Import Firebase Auth
+
+const auth = getAuth(); // ✅ Initialize Auth
 
 const questions = [
   "Do you feel a strong urge to use the substance/activity?",
@@ -49,26 +53,26 @@ const Addiction = () => {
     if (totalScore <= 6) {
       status = "Low Risk / Safe Mode";
       resultText =
-        "Great...!!No major concern, but maintaining a healthy lifestyle is essential.\n" +
-        ">> Staying active: Regular exercise can boost mood and reduce stress.\n" +
-        ">> Maintaining a healthy sleep routine: Good sleep is vital for mental clarity and emotional stability.\n" +
-        ">> Nurturing relationships: Social connections provide emotional support.\n" +
-        ">> Mindfulness: Continue practicing mindfulness or relaxation techniques to stay grounded.\n" +
+        "Great...!!No major concern, but maintaining a healthy lifestyle is essential." +
+        ">> Staying active: Regular exercise can boost mood and reduce stress." +
+        ">> Maintaining a healthy sleep routine: Good sleep is vital for mental clarity and emotional stability." +
+        ">> Nurturing relationships: Social connections provide emotional support." +
+        ">> Mindfulness: Continue practicing mindfulness or relaxation techniques to stay grounded." +
         "If you ever feel that your mental health starts to shift, don't hesitate to explore additional resources or reach out for support.";
     } else if (totalScore <= 15) {
       status = "Mild Addiction";
       resultText =
-        "Some signs of dependence; consider self-regulation strategies.\n" +
-        ">>  Set Clear Boundaries – Limit the time or frequency of usage (e.g., reducing screen time, scheduled breaks, or controlled intake).\n" +
-        ">>  Minimize Distractions: Work in a quiet, clutter-free environment to help with concentration.\n" +
-        ">>  Practice Mindfulness & Exercise: Activities like meditation, deep breathing, or physical exercise can help regulate impulsivity and restlessness.\n" +
-        ">>  Seek Guidance if Needed: If symptoms become more frequent or disruptive, consulting a mental health professional for strategies or therapy can be beneficial..\n";
+        "Some signs of dependence; consider self-regulation strategies." +
+        ">>  Set Clear Boundaries – Limit the time or frequency of usage (e.g., reducing screen time, scheduled breaks, or controlled intake)." +
+        ">>  Minimize Distractions: Work in a quiet, clutter-free environment to help with concentration." +
+        ">>  Practice Mindfulness & Exercise: Activities like meditation, deep breathing, or physical exercise can help regulate impulsivity and restlessness." +
+        ">>  Seek Guidance if Needed: If symptoms become more frequent or disruptive, consulting a mental health professional for strategies or therapy can be beneficial..";
         
     } else if(totalScore <= 22) {
         status = "Moderate Addiction";
         resultText =
-        "Addiction traits are likely affecting your daily life, including work, studies, or relationships.\n"
-        "What You Can Do:\n"
+        "Addiction traits are likely affecting your daily life, including work, studies, or relationships."
+        "What You Can Do:"
         ">> Replace the Habit with Positive Alternatives – Engage in exercise, creative hobbies, or mindfulness practices."
         ">> Build a Support System : Stay connected with family, friends, and support groups for emotional stability."
         ">> Engage in Healthy Coping Mechanisms : Practice mindfulness, exercise, and engage in creative activities."
@@ -77,10 +81,10 @@ const Addiction = () => {
     else {
       status = "High Risk / Severe Symptoms";
       resultText =
-        "We understand that you may be going through a difficult time.\n" +
-        ">> Please seek support from professionals.\n" +
-        "📞 Mind Empowered, Kalamassery – [8281992128]\n" +
-        "Your well-being matters, and seeking help is a sign of strength.\n" +
+        "We understand that you may be going through a difficult time." +
+        ">> Please seek support from professionals." +
+        "📞 Mind Empowered, Kalamassery – [8281992128]" +
+        "Your well-being matters, and seeking help is a sign of strength." +
         "If you need urgent support, don’t hesitate to reach out.";
     }
 
@@ -98,12 +102,25 @@ const Addiction = () => {
     setResult(
       <Card sx={{ mt: 3, p: 2, bgcolor: "#f9f9f9" }}>
         <CardContent>
-          <Typography variant="h6" sx={{ color: "#1e8449", fontWeight: "bold" }}>🏆 Total Score: {totalScore}</Typography>
+          <Typography variant="h6" sx={{ color: "#1e8449", fontWeight: "bold" }}>🏆 Total Score: {totalScore} / {questions.length * 4}</Typography>
           <Typography variant="h6" sx={{ color: "#2980b9", fontWeight: "bold" }}>📊 Mental Health Status: {status}</Typography>
           {formattedText}
         </CardContent>
       </Card>
     );
+    // ✅ Correctly update the score in Firebase
+                        onAuthStateChanged(auth, async (user) => {
+                          if (user) {
+                            try {
+                              await updateUserScore(user.uid, "Addiction Test", totalScore, 10);
+                              console.log("Addiction Test Score Updated!");
+                            } catch (error) {
+                              console.error("Error updating score:", error);
+                            }
+                          } else {
+                            console.log("User not logged in.");
+                          }
+                        });
   };
 
   return (

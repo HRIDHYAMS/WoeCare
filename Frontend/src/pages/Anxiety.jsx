@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { Container, Typography, Button, Card, CardContent, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Alert } from "@mui/material";
+import { updateUserScore } from "../../../Backend/firebase"; // Import function
+import { getAuth, onAuthStateChanged } from "firebase/auth"; // ✅ Import Firebase Auth
+
+const auth = getAuth(); // ✅ Initialize Auth
 
 const questions = [
   "Feeling nervous, anxious, or on edge?",
@@ -46,42 +50,42 @@ const Anxiety = () => {
     if (totalScore <= 6) {
       status = "Low Risk / Safe Mode";
       resultText =
-        "Great...!!You are experiencing normal anxiety levels. Maintain healthy habits.\n" +
-        ">> Staying active: Regular exercise can boost mood and reduce stress.\n" +
-        ">> Maintaining a healthy sleep routine: Good sleep is vital for mental clarity and emotional stability.\n" +
-        ">> Nurturing relationships: Social connections provide emotional support.\n" +
-        ">> Mindfulness: Continue practicing mindfulness or relaxation techniques to stay grounded.\n" +
+        "Great...!!You are experiencing normal anxiety levels. Maintain healthy habits." +
+        ">> Staying active: Regular exercise can boost mood and reduce stress." +
+        ">> Maintaining a healthy sleep routine: Good sleep is vital for mental clarity and emotional stability." +
+        ">> Nurturing relationships: Social connections provide emotional support." +
+        ">> Mindfulness: Continue practicing mindfulness or relaxation techniques to stay grounded." +
         "If you ever feel that your mental health starts to shift, don't hesitate to explore additional resources or reach out for support.";
     } else if (totalScore <= 13) {
       status = "Mild Anxiety";
       resultText =
-        "Thank you for sharing your thoughts.You may feel occasional worry. Try relaxation techniques and stress management.\n" +
-        ">> Regular Reflection: Journaling to process your feelings.\n" +
-        ">> Stress Management: Activities like yoga or deep breathing.\n" +
-        ">> Social Support: Connect with trusted family or friends.\n" +
-        ">> Professional Guidance: Consider speaking to a therapist.\n" +
-        ">> Mindfulness Practices: Apps like Headspace or Calm.\n" +
-        ">> Physical Health: Exercise, proper sleep, and a balanced diet.\n" +
+        "Thank you for sharing your thoughts.You may feel occasional worry. Try relaxation techniques and stress management." +
+        ">> Regular Reflection: Journaling to process your feelings." +
+        ">> Stress Management: Activities like yoga or deep breathing." +
+        ">> Social Support: Connect with trusted family or friends." +
+        ">> Professional Guidance: Consider speaking to a therapist." +
+        ">> Mindfulness Practices: Apps like Headspace or Calm." +
+        ">> Physical Health: Exercise, proper sleep, and a balanced diet." +
         "You have the ability to adjust your mindset and manage your emotions effectively.";
     } else if(totalScore <= 20) {
         status = "Moderate Anxiety";
         resultText =
-        "Anxiety might be interfering with your daily life. Consider seeking support.\n"
-        "What You Can Do:\n"
-        ">> Practice Deep Breathing & Relaxation : Techniques like deep breathing, progressive muscle relaxation, or mindfulness meditation can help manage anxious feelings.\n" 
-        ">> Exercise Regularly : Physical activity releases endorphins, which reduce stress and anxiety. Even a short daily walk can help."
-        ">> Maintain a Healthy Routine : Eating nutritious food, staying hydrated, and getting enough sleep can improve your mental well-being."
-        ">> Reach Out for Support : Talking to close friends, family, or a support group can provide emotional relief and reassurance."
+        "Anxiety might be interfering with your daily life. Consider seeking support."+
+        "What You Can Do:"+
+        ">> Practice Deep Breathing & Relaxation : Techniques like deep breathing, progressive muscle relaxation, or mindfulness meditation can help manage anxious feelings." +
+        ">> Exercise Regularly : Physical activity releases endorphins, which reduce stress and anxiety. Even a short daily walk can help."+
+        ">> Maintain a Healthy Routine : Eating nutritious food, staying hydrated, and getting enough sleep can improve your mental well-being."+
+        ">> Reach Out for Support : Talking to close friends, family, or a support group can provide emotional relief and reassurance."+
         ">>  Consider Professional Help : If anxiety is significantly impacting your daily life, consulting a therapist or counselor can provide personalized strategies for managing stress and anxiety."
 
             }
     else {
       status = "High Risk / Severe";
       resultText =
-        "We understand that you may be going through a difficult time.\n" +
-        ">> Please seek support from professionals.\n" +
-        "📞 Mind Empowered, Kalamassery – [8281992128]\n" +
-        "Your well-being matters, and seeking help is a sign of strength.\n" +
+        "We understand that you may be going through a difficult time." +
+        ">> Please seek support from professionals." +
+        "📞 Mind Empowered, Kalamassery – [8281992128]" +
+        "Your well-being matters, and seeking help is a sign of strength." +
         "If you need urgent support, don’t hesitate to reach out.";
     }
 
@@ -99,12 +103,25 @@ const Anxiety = () => {
     setResult(
       <Card sx={{ mt: 3, p: 2, bgcolor: "#f9f9f9" }}>
         <CardContent>
-          <Typography variant="h6" sx={{ color: "#1e8449", fontWeight: "bold" }}>🏆 Total Score: {totalScore}</Typography>
+          <Typography variant="h6" sx={{ color: "#1e8449", fontWeight: "bold" }}>🏆 Total Score: {totalScore} / {questions.length * 4}</Typography>
           <Typography variant="h6" sx={{ color: "#2980b9", fontWeight: "bold" }}>📊 Mental Health Status: {status}</Typography>
           {formattedText}
         </CardContent>
       </Card>
     );
+    // ✅ Correctly update the score in Firebase
+                onAuthStateChanged(auth, async (user) => {
+                  if (user) {
+                    try {
+                      await updateUserScore(user.uid, "Anxiety Test", totalScore,7);
+                      console.log("Anxiety Test Score Updated!");
+                    } catch (error) {
+                      console.error("Error updating score:", error);
+                    }
+                  } else {
+                    console.log("User not logged in.");
+                  }
+                });
   };
 
   return (

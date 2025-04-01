@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { Container, Typography, Button, Card, CardContent, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Alert } from "@mui/material";
+import { updateUserScore } from "../../../Backend/firebase"; // Import function
+import { getAuth, onAuthStateChanged } from "firebase/auth"; // ✅ Import Firebase Auth
+
+const auth = getAuth(); // ✅ Initialize Auth
 
 const questions = [
   "Do you find it hard to stay focused on tasks or conversations?",
@@ -46,41 +50,41 @@ const Adhd = () => {
     if (totalScore <= 7) {
       status = "Low Risk / Safe Mode";
       resultText =
-        "Great...!!You are experiencing normal ADHD levels. Maintain healthy habits.\n" +
-        ">> Staying active: Regular exercise can boost mood and reduce stress.\n" +
-        ">> Maintaining a healthy sleep routine: Good sleep is vital for mental clarity and emotional stability.\n" +
-        ">> Nurturing relationships: Social connections provide emotional support.\n" +
-        ">> Mindfulness: Continue practicing mindfulness or relaxation techniques to stay grounded.\n" +
+        "Great...!!You are experiencing normal ADHD levels. Maintain healthy habits." +
+        ">> Staying active: Regular exercise can boost mood and reduce stress." +
+        ">> Maintaining a healthy sleep routine: Good sleep is vital for mental clarity and emotional stability." +
+        ">> Nurturing relationships: Social connections provide emotional support." +
+        ">> Mindfulness: Continue practicing mindfulness or relaxation techniques to stay grounded." +
         "If you ever feel that your mental health starts to shift, don't hesitate to explore additional resources or reach out for support.";
     } else if (totalScore <= 15) {
       status = "Moderate Symptoms";
       resultText =
-        "You may have occasional difficulties with attention, impulsivity, or hyperactivity, but they are manageable.\n" +
-        ">>  Use External Supports: Rely on planners, reminders, or digital tools to stay organized.\n" +
-        ">>  Minimize Distractions: Work in a quiet, clutter-free environment to help with concentration.\n" +
-        ">>  Practice Mindfulness & Exercise: Activities like meditation, deep breathing, or physical exercise can help regulate impulsivity and restlessness.\n" +
-        ">>  Seek Guidance if Needed: If symptoms become more frequent or disruptive, consulting a mental health professional for strategies or therapy can be beneficial..\n";
+        "You may have occasional difficulties with attention, impulsivity, or hyperactivity, but they are manageable." +
+        ">>  Use External Supports: Rely on planners, reminders, or digital tools to stay organized." +
+        ">>  Minimize Distractions: Work in a quiet, clutter-free environment to help with concentration." +
+        ">>  Practice Mindfulness & Exercise: Activities like meditation, deep breathing, or physical exercise can help regulate impulsivity and restlessness." +
+        ">>  Seek Guidance if Needed: If symptoms become more frequent or disruptive, consulting a mental health professional for strategies or therapy can be beneficial..";
         
     } else if(totalScore <= 22) {
         status = "High Symptoms";
         resultText =
-        "ADHD traits are likely affecting your daily life, including work, studies, or relationships.\n"
-        "What You Can Do:\n"
-        ">> Structure Your Environment: Minimize distractions by creating a clutter-free workspace and using timers, planners, or task-management apps."
-        ">> Break Tasks Into Small Steps: Large projects can feel overwhelming—divide them into smaller, actionable tasks with set deadlines."
-        ">> Use External Reminders: Digital calendars, alarms, sticky notes, or accountability partners can help track responsibilities."
-        ">> Practice Mindfulness & Relaxation: Techniques like deep breathing, exercise, or meditation can help manage impulsivity and stress."
-        ">> Set Realistic Goals: Accept that perfection isn’t necessary—focus on progress and celebrate small achievements."
-        ">> Seek Professional Support: Therapy (such as CBT for ADHD) or medication (if needed) can provide additional coping strategies..\n ";
+        "ADHD traits are likely affecting your daily life, including work, studies, or relationships."+
+        "What You Can Do:"+
+        ">> Structure Your Environment: Minimize distractions by creating a clutter-free workspace and using timers, planners, or task-management apps."+
+        ">> Break Tasks Into Small Steps: Large projects can feel overwhelming—divide them into smaller, actionable tasks with set deadlines."+
+        ">> Use External Reminders: Digital calendars, alarms, sticky notes, or accountability partners can help track responsibilities."+
+        ">> Practice Mindfulness & Relaxation: Techniques like deep breathing, exercise, or meditation can help manage impulsivity and stress."+
+        ">> Set Realistic Goals: Accept that perfection isn’t necessary—focus on progress and celebrate small achievements."+
+        ">> Seek Professional Support: Therapy (such as CBT for ADHD) or medication (if needed) can provide additional coping strategies.. ";
 
             }
     else {
       status = "High Risk / Severe Symptoms";
       resultText =
-        "We understand that you may be going through a difficult time.\n" +
-        ">> Please seek support from professionals.\n" +
-        "📞 Mind Empowered, Kalamassery – [8281992128]\n" +
-        "Your well-being matters, and seeking help is a sign of strength.\n" +
+        "We understand that you may be going through a difficult time." +
+        ">> Please seek support from professionals." +
+        "📞 Mind Empowered, Kalamassery – [8281992128]" +
+        "Your well-being matters, and seeking help is a sign of strength." +
         "If you need urgent support, don’t hesitate to reach out.";
     }
 
@@ -104,6 +108,19 @@ const Adhd = () => {
         </CardContent>
       </Card>
     );
+    // ✅ Correctly update the score in Firebase
+                    onAuthStateChanged(auth, async (user) => {
+                      if (user) {
+                        try {
+                          await updateUserScore(user.uid, "ADHD Test", totalScore,7);
+                          console.log("ADHD Test Score Updated!");
+                        } catch (error) {
+                          console.error("Error updating score:", error);
+                        }
+                      } else {
+                        console.log("User not logged in.");
+                      }
+                    });
   };
 
   return (

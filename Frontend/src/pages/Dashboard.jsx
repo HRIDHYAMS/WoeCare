@@ -63,6 +63,15 @@ const Dashboard = () => {
               Consult a Therapist
             </Link>
           </motion.div>
+          <motion.div
+            className="woecare-dashboard-feature-card"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link to="/Score" className="woecare-dashboard-feature-link">
+              Your Score Details
+            </Link>
+          </motion.div>
         </div>
       </section>
 
