@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Typography, Button, Card, CardContent, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Alert } from "@mui/material";
 import { updateUserScore } from "../../../Backend/firebase"; // Import function
-import { getAuth } from "firebase/auth"; // ✅ Import Firebase Auth and onAuthStateChanged
+import { getAuth, onAuthStateChanged } from "firebase/auth"; // ✅ Import Firebase Auth
 
 const auth = getAuth(); // ✅ Initialize Auth
 

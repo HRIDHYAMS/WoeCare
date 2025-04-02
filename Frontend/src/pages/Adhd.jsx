@@ -102,7 +102,7 @@ const Adhd = () => {
     setResult(
       <Card sx={{ mt: 3, p: 2, bgcolor: "#f9f9f9" }}>
         <CardContent>
-          <Typography variant="h6" sx={{ color: "#1e8449", fontWeight: "bold" }}>🏆 Total Score: {totalScore}</Typography>
+          <Typography variant="h6" sx={{ color: "#1e8449", fontWeight: "bold" }}>🏆 Total Score: {totalScore} / {questions.length * 4}</Typography>
           <Typography variant="h6" sx={{ color: "#2980b9", fontWeight: "bold" }}>📊 Mental Health Status: {status}</Typography>
           {formattedText}
         </CardContent>
