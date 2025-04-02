@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { getAuth, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, provider } from "../firebase"; // Import provider and auth from your firebase setup
+import { auth, provider } from "../../../Backend/firebase"; // Import provider and auth from your firebase setup
 import "./Login.css";
 
 const Login = () => {

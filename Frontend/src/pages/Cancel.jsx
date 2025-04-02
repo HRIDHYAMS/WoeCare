@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../firebase";
+import { db } from "../../../Backend/firebase";
 import { collection, query, where, getDocs, deleteDoc, doc, setDoc } from "firebase/firestore";
 import "./Cancel.css"; // Reusing styles
 

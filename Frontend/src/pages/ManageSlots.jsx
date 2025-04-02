@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../firebase";
+import { db } from "../../../Backend/firebase";
 import { collection, getDocs, deleteDoc, doc, onSnapshot, addDoc, query, orderBy, limit } from "firebase/firestore";
 import "./ManageSlots.css";
 
