@@ -7,7 +7,7 @@ import "./Chatbot.css";
 
 // Firebase imports
 import { doc, collection, addDoc, getDocs, orderBy, query } from "firebase/firestore";
-import { auth, db } from "../../.././Backend/firebase"; // Adjust the import path as needed
+import { auth, db } from "../../firebase"; // Adjust the import path as needed
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);

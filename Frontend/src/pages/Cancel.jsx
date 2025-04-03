@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../../../Backend/firebase";
+import { db } from "../../firebase";
 import { collection, query, where, getDocs, deleteDoc, doc, setDoc } from "firebase/firestore";
 import "./Cancel.css"; // Reusing styles
 
@@ -32,7 +32,7 @@ const CancelSlot = () => {
 
     fetchSlot();
   }, [email]);
-
+  console.log("heo");
   // Cancel the user's booked slot
   const handleCancel = async () => {
     if (!slot) return;
@@ -117,4 +117,4 @@ const CancelSlot = () => {
   );
 };
 
-export default CancelSlot;
+export default CancelSlot;``

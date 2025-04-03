@@ -2,7 +2,7 @@ import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { doc, setDoc, getDoc, Timestamp } from "firebase/firestore";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, db, provider } from "../../../Backend/firebase";
+import { auth, db, provider } from "../../firebase";
 import "./SignUp.css";
 
 const SignUp = () => {

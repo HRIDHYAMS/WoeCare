@@ -1,5 +1,5 @@
 import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
-import { db } from "../../../Backend/firebase"; // Ensure correct Firestore import
+import { db } from "../../firebase"; // Ensure correct Firestore import
 
 const updateUserScore = async (uid, testName, score) => {
     try {

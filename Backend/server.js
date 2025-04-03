@@ -5,9 +5,9 @@ import multer from "multer";
 import fs from "fs";
 import cors from "cors";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import slotRoutes from "./routes/slotRoutes.js";
-import admin from "firebase-admin";
-import { db } from "./firebase.js";
+import slotRoutes from "../Frontend/src/pages/slotRoutes.js";
+
+
 
 // Load environment variables from .env file
 dotenv.config();

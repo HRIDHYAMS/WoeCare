@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../../../Backend/firebase"; // Ensure this points to your Firebase config
+import { db } from "../../firebase"; // Ensure this points to your Firebase config
 import { collection, addDoc } from "firebase/firestore";
 import "./BookSlot.css"; // Maintain same CSS format
 

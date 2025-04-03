@@ -1,6 +1,6 @@
 import { collection, getDocs, query, where, addDoc, orderBy, limit, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import express from "express";
-import { db } from "../firebase.js"; 
+import { db } from "../../firebase.js"; 
 
 const router = express.Router();
 
