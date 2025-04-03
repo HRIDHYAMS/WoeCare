@@ -13,7 +13,7 @@ html, body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: url('gif7.gif') no-repeat center center;
+  background: url('Frontend/public/gif7.gif') no-repeat center center; /*gif7.gif*/
   background-size: cover;
   display: flex;
   align-items: center;
