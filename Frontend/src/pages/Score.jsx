@@ -11,11 +11,9 @@ const Score = () => {
     const db = getFirestore();
 
     useEffect(() => {
-        // Listen for authentication state changes
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             if (currentUser) {
                 setUser(currentUser);
-                console.log("User authenticated:", currentUser); // Debugging line
                 fetchScores(currentUser.uid);
             } else {
                 setUser(null);
@@ -24,21 +22,18 @@ const Score = () => {
             }
         });
 
-        return () => unsubscribe(); // Cleanup function
+        return () => unsubscribe();
     }, []);
 
     const fetchScores = async (uid) => {
         setLoading(true);
-        const userRef = doc(db, "userScores", uid); // User's document
+        const userRef = doc(db, "userScores", uid);
 
         try {
             const userDoc = await getDoc(userRef);
             if (userDoc.exists()) {
                 const userData = userDoc.data();
-                console.log("Fetched user data:", userData); // Debugging line
-                setScores(userData.scores || {}); // Fetch scores map
-            } else {
-                console.log("No user document found."); // Debugging line
+                setScores(userData.scores || {});
             }
         } catch (error) {
             console.error("Error fetching scores:", error);
@@ -48,124 +43,145 @@ const Score = () => {
 
     return (
         <div style={styles.container}>
-            <h2 style={styles.title}>Your Test Scores</h2>
-            {loading ? (
-                <p style={styles.loadingText}>Loading scores...</p>
-            ) : scores && Object.keys(scores).length > 0 ? (
-                <ul style={styles.list}>
-                    {Object.entries(scores).map(([testName, score]) => (
-                        <li key={testName} style={styles.listItem}>
-                            <strong style={styles.testName}>{testName}</strong>
-                            <div style={styles.scoreDetails}>
-                                <p style={styles.scoreText}>
-                                    <strong>Obtained: </strong>{score.obtained}
-                                </p>
-                                <p style={styles.scoreText}>
-                                    <strong>Total: </strong>{score.total}
-                                </p>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p style={styles.noScores}>No test scores available.</p>
-            )}
-        </div>
+    <h2 style={styles.title}>Your Test Scores</h2>
+    
+    {loading ? (
+        <p style={styles.loadingText}>Loading scores...</p>
+    ) : scores && typeof scores === "object" && Object.keys(scores).length > 0 ? (
+        <ul style={styles.list}>
+    {Array.isArray(scores) ? (
+        scores.map((attempt, index) => (
+            <li key={index} style={styles.listItem}>
+                <p style={styles.testName}>
+                    <strong> </strong> {attempt.testName || "Unknown Test"}
+                </p>
+                <div style={styles.scoreDetails}>
+                    <p style={styles.scoreText}>
+                        <strong>Obtained: </strong> {attempt.obtained}
+                    </p>
+                    <p style={styles.scoreText}>
+                        <strong>Total: </strong> {attempt.total}
+                    </p>
+                    <p style={styles.dateText}>
+    <strong>Completed on: </strong> 
+    {attempt.timestamp
+        ? new Date(attempt.timestamp).toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+        : "N/A"}
+</p>
+
+                </div>
+            </li>
+        ))
+    ) : (
+        Object.keys(scores).map((testName, index) => {
+            const attempt = scores[testName]; // ✅ Extract test details correctly
+            return (
+                <li key={index} style={styles.listItem}>
+                    <p style={styles.testName}>
+                        <strong> </strong> {testName}
+                    </p>
+                    <div style={styles.scoreDetails}>
+                        <p style={styles.scoreText}>
+                            <strong>Obtained: </strong> {attempt.obtained}
+                        </p>
+                        <p style={styles.scoreText}>
+                            <strong>Total: </strong> {attempt.total}
+                        </p>
+                        <p style={styles.dateText}>
+    <strong>Completed on: </strong> 
+    {attempt.timestamp
+        ? new Date(attempt.timestamp).toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+        : "N/A"}
+</p>
+
+                    </div>
+                </li>
+            );
+        })
+    )}
+</ul>
+
+    ) : (
+        <p style={styles.noScores}>No test scores available.</p>
+    )}
+</div>
     );
 };
-
 const styles = {
     container: {
-        maxWidth: "900px", // Larger container for better layout
+        maxWidth: "900px",
         margin: "40px auto",
-        padding: "40px", // Increased padding for a spacious feel
-        background: "transparent", // Keeping the white background
-        color: "#333", // Dark text for readability
-        borderRadius: "20px", // Rounded corners for a modern look
-        boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.1)", // Soft shadow for depth
+        padding: "40px",
+        background: "transparent",
+        color: "#333",
+        borderRadius: "20px",
+        boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.1)",
         textAlign: "center",
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", // Modern font
-        transition: "all 0.3s ease", // Smooth container transition for resizing
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        transition: "all 0.3s ease",
     },
     title: {
-        fontSize: "36px", // Increased font size for better emphasis
-        fontWeight: "700", // Bold title for stronger presence
-        marginBottom: "40px", // Increased bottom margin for spacing
-        color: "transparent", // Transparent color for gradient effect
-        backgroundImage: "linear-gradient(45deg,rgb(159, 182, 204),rgb(206, 154, 154))", // Gradient background
-        backgroundClip: "text", // Clipping background to the text only
-        letterSpacing: "2px", // Increased letter spacing for a more airy look
-        textTransform: "uppercase", // Making the text uppercase for emphasis
+        fontSize: "36px",
+        fontWeight: "700",
+        marginBottom: "40px",
+        color: "transparent",
+        backgroundImage: "linear-gradient(45deg, rgb(159, 182, 204), rgb(206, 154, 154))",
+        backgroundClip: "text",
+        letterSpacing: "2px",
+        textTransform: "uppercase",
         display: "inline-block",
-        paddingBottom: "12px", // Increased padding for bottom spacing
-        textShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)", // Soft shadow to make it pop
-        transition: "all 0.3s ease-in-out", // Smooth hover transition
+        paddingBottom: "12px",
+        textShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+        transition: "all 0.3s ease-in-out",
     },
-    
     loadingText: {
         fontSize: "20px",
         fontStyle: "italic",
-        color: "#6c757d", // Light gray for loading text
+        color: "#6c757d",
         marginTop: "20px",
     },
     noScores: {
         fontSize: "18px",
         fontStyle: "italic",
-        color: "#6c757d", // Light gray for "no scores" text
+        color: "#6c757d",
         marginTop: "20px",
     },
     list: {
         listStyle: "none",
         padding: "0",
-        marginTop: "30px", // Added spacing between list and other elements
-        animation: "fadeIn 1s ease-in-out", // Fade-in animation for the list
+        marginTop: "30px",
     },
     listItem: {
-        background: "#ffffff", // White background for each list item
-        margin: "16px 0", // Increased margin for better spacing between items
+        background: "#ffffff",
+        margin: "16px 0",
         padding: "20px",
-        borderRadius: "15px", // Rounded corners for each item
-        fontSize: "20px", // Larger font size for the list items
-        transition: "all 0.3s ease", // Smooth transitions for hover effects
-        border: "1px solid #e0e0e0", // Light border to separate items
-        textAlign: "left", // Align text to the left for better readability
-        boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)", // Soft shadow for each item
-        transform: "scale(1)", // Ensuring normal size by default
-    },
-    listItemHover: {
-        boxShadow: "0px 8px 25px rgba(0, 0, 0, 0.15)", // Larger shadow on hover
-        transform: "scale(1.05)", // Slight zoom effect on hover
+        borderRadius: "15px",
+        fontSize: "20px",
+        transition: "all 0.3s ease",
+        border: "1px solid #e0e0e0",
+        textAlign: "left",
+        boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
     },
     testName: {
-        fontSize: "24px", // Larger test name for emphasis
-        fontWeight: "700", // Bold test name for emphasis
+        fontSize: "24px",
+        fontWeight: "700",
         marginBottom: "10px",
-        color: "#1d3557", // Dark blue color for test names
+        color: "#1d3557",
         letterSpacing: "0.5px",
     },
     scoreDetails: {
-        marginTop: "10px", // Spacing for the score details
+        marginTop: "10px",
     },
     scoreText: {
-        fontSize: "18px", // Moderate font size for the scores
-        margin: "8px 0", // Spacing between score lines
-        color: "#333", // Dark text for scores
+        fontSize: "18px",
+        margin: "8px 0",
+        color: "#333",
     },
-    scoreValue: {
-        fontWeight: "600", // Slightly bolder score values for better visibility
-        color: "#007bff", // Blue color for score value
-        fontSize: "22px", // Increased font size for score value
-    },
-    // Animation Keyframes for fade-in effect
-    '@keyframes fadeIn': {
-        '0%': {
-            opacity: '0',
-            transform: 'translateY(20px)',
-        },
-        '100%': {
-            opacity: '1',
-            transform: 'translateY(0)',
-        }
+    dateText: {
+        fontSize: "16px",
+        color: "#555",
+        fontStyle: "italic",
     },
 };
+
 export default Score;

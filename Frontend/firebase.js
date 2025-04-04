@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { getFirestore, setDoc, doc, updateDoc, getDoc } from "firebase/firestore";
+import { getFirestore, setDoc, doc, updateDoc, getDoc, arrayUnion } from "firebase/firestore";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -46,6 +46,7 @@ const handleGoogleLogin = async () => {
   }
 };
 
+// Function to update user scores (stores multiple attempts)
 const updateUserScore = async (uid, testName, obtainedScore, numberOfQuestions) => {
   const user = auth.currentUser;
   if (!user) {
@@ -53,42 +54,39 @@ const updateUserScore = async (uid, testName, obtainedScore, numberOfQuestions) 
     return;
   }
 
-  const userEmail = user.email; // ✅ Get the user's email
+  const userEmail = user.email; // ✅ Get user email
   const userRef = doc(db, "userScores", uid); // ✅ Ensure collection name matches Firestore
 
-  // Log number of questions for debugging
-  console.log("Number of Questions: ", numberOfQuestions);
-
-  // Validate numberOfQuestions and calculate totalScore
+  // Validate numberOfQuestions
   let totalScore = 0;
   if (typeof numberOfQuestions === "number" && !isNaN(numberOfQuestions) && numberOfQuestions > 0) {
-    totalScore = numberOfQuestions * 4; // Calculate total score based on number of questions
-    console.log("Total Score: ", totalScore); // Debugging total score calculation
+    totalScore = numberOfQuestions * 4; // Calculate total score
   } else {
-    console.error("Invalid numberOfQuestions:", numberOfQuestions); // Log error if invalid
-    return; // Early return if numberOfQuestions is invalid
+    console.error("Invalid numberOfQuestions:", numberOfQuestions);
+    return;
   }
 
   try {
     const userDoc = await getDoc(userRef);
 
+    const newTestAttempt = {
+      testName,
+      obtained: obtainedScore,
+      total: totalScore,
+      timestamp: new Date().toISOString(), // ✅ Store test time
+    };
+
     if (userDoc.exists()) {
-      // Update the existing user document with new score
+      // Append the new score to the existing array of scores
       await updateDoc(userRef, {
-        [`scores.${testName}`]: { obtained: obtainedScore, total: totalScore },
+        scores: arrayUnion(newTestAttempt), // ✅ Store multiple attempts
         email: userEmail,
-        lastTestName: testName,
-        lastScore: obtainedScore,
       });
     } else {
-      // If no document exists, create a new one with the first score
+      // If no document exists, create a new one with the first score attempt
       await setDoc(userRef, {
-        scores: {
-          [testName]: { obtained: obtainedScore, total: totalScore },
-        },
+        scores: [newTestAttempt], // ✅ Store as an array
         email: userEmail,
-        firstTestName: testName,
-        firstScore: obtainedScore,
       });
     }
 
@@ -104,9 +102,9 @@ const getUserScores = async (uid) => {
   try {
     const userDoc = await getDoc(userRef);
     if (userDoc.exists()) {
-      return userDoc.data().scores;
+      return userDoc.data().scores || []; // ✅ Ensure it returns an array
     } else {
-      return null; // No scores found for this user
+      return []; // No scores found
     }
   } catch (error) {
     console.error("Error getting user scores:", error);
