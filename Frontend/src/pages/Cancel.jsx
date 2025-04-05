@@ -36,65 +36,67 @@ const CancelSlot = () => {
   // Cancel the user's booked slot
   const handleCancel = async () => {
     if (!slot) return;
-
+  
     try {
       // Step 1: Fetch the waiting list for the slot
       const waitingListRef = collection(db, "waiting_list");
       const urgentQuery = query(waitingListRef, where("urgent", "==", true));
       const urgentSnapshot = await getDocs(urgentQuery);
-      console.log("Urgent Snapshot:", urgentSnapshot.docs); // Log the urgent snapshot
-
+  
       let memberToAssign = null;
-
-      // If urgent: true member is available, assign the first one
+  
       if (!urgentSnapshot.empty) {
         memberToAssign = urgentSnapshot.docs[0];
       } else {
-        // If no urgent members, assign the first member with urgent: false
         const nonUrgentQuery = query(waitingListRef, where("urgent", "==", false));
         const nonUrgentSnapshot = await getDocs(nonUrgentQuery);
-        console.log("Non-Urgent Snapshot:", nonUrgentSnapshot.docs); // Log the non-urgent snapshot
-
+  
         if (!nonUrgentSnapshot.empty) {
           memberToAssign = nonUrgentSnapshot.docs[0];
         }
       }
-
-      // Step 2: If a member was found in the waiting list, assign them to the slot
+  
       if (memberToAssign) {
         const assignedMember = memberToAssign.data();
         const newSlot = {
           email: assignedMember.email,
-          name: assignedMember.name, // Assuming name is a field
+          name: assignedMember.name,
           time: slot.time,
           urgent: assignedMember.urgent || false,
-          bookedBy: assignedMember.email, // Assign the email of the new member
+          bookedBy: assignedMember.email,
         };
-
-        // Step 3: Add the new member to the slots collection (instead of updating)
-        const newSlotRef = doc(db, "slots", slot.id); // Create a new document with the same ID in "slots"
+  
+        const newSlotRef = doc(db, "slots", slot.id);
         await setDoc(newSlotRef, newSlot);
-
-        // Step 4: Remove the member from the waiting list
+  
         const waitingListDocRef = doc(db, "waiting_list", memberToAssign.id);
-        console.log("Deleting from waiting list:", memberToAssign.id);
         await deleteDoc(waitingListDocRef);
-
+  
         setResponseMessage("Your slot has been successfully canceled, and a waiting member has been assigned.");
       } else {
         setResponseMessage("No members in the waiting list to assign to the slot.");
       }
-
-      // Step 5: Delete the canceled slot
+  
+      // ✅ Step 2: Add to 'cancelled_slots' collection before deleting
+      const cancelledSlotRef = doc(db, "cancelled_slots", slot.id);
+      await setDoc(cancelledSlotRef, {
+        cancelledBy: email,
+        name: slot.name || "N/A",
+        time: slot.time,
+        cancelledAt: new Date().toISOString()
+      });
+  
+      // ✅ Step 3: Delete the original slot
       const slotRef = doc(db, "slots", slot.id);
-      console.log("Deleting slot:", slot.id);
-      await deleteDoc(slotRef); // Delete from Firestore
-      setSlot(null); // Clear UI after deletion
+      await deleteDoc(slotRef);
+  
+      setSlot(null);
     } catch (error) {
-      console.error("Error canceling slot:", error); // Log any errors
+      console.error("Error canceling slot:", error);
       setResponseMessage("Error canceling slot. Try again later.");
     }
   };
+  
 
   return (
     <div className="cancel-slot-page">

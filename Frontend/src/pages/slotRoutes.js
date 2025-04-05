@@ -6,16 +6,34 @@ const router = express.Router();
 
 router.get("/available", async (req, res) => {
     try {
-        const slotsCollection = collection(db, "slots");
-        const slotsQuery = query(slotsCollection, where("status", "==", "booked"));
-        const slotsSnapshot = await getDocs(slotsQuery);
-
-        const slots = slotsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        res.json(slots);
+      // Fetch booked slots
+      const slotsCollection = collection(db, "slots");
+      const slotsQuery = query(slotsCollection, where("status", "==", "booked"));
+      const slotsSnapshot = await getDocs(slotsQuery);
+      const slots = slotsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  
+      // Fetch latest therapist (just name and startTime)
+      const therapistCollection = collection(db, "therapists");
+      const therapistQuery = query(therapistCollection, orderBy("createdAt", "desc"), limit(1));
+      const therapistSnapshot = await getDocs(therapistQuery);
+  
+      if (therapistSnapshot.empty) {
+        return res.status(404).json({ error: "No therapist found." });
+      }
+  
+      const therapistDoc = therapistSnapshot.docs[0];
+      const therapist = {
+        name: therapistDoc.data().name,
+        startTime: therapistDoc.data().startTime // e.g., 10
+      };
+  
+      // Send both
+      res.json({ slots, therapist });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+      console.error("Error fetching slots or therapist:", error);
+      res.status(500).json({ error: error.message });
     }
-});
+  });
 
 const MAX_SLOTS = 5;
 
@@ -117,7 +135,6 @@ router.post("/book", async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 });
-
 
 
 router.post("/cancel", async (req, res) => {

@@ -20,7 +20,7 @@ import Cancel from  "./pages/Cancel";
 import AddTherapist from "./pages/AddTherapist"; 
 import ManageSlots from "./pages/ManageSlots"; 
 import Score from "./pages/Score"; 
-
+import BookedSlots from "./pages/BookedSlots";
 function App() {
   return (
     <Router>
@@ -47,6 +47,7 @@ function App() {
         <Route path="/therapists" element={<AddTherapist />} />
         <Route path="/manageslots" element={<ManageSlots />} />
         <Route path="/score" element={<Score />} />
+        <Route path="/bookedslots" element={<BookedSlots />} />
       </Routes>
     </Router>
   );

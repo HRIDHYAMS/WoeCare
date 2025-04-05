@@ -52,7 +52,7 @@ html, body {
 
 /* Buttons */
 .woecare-slot-booking-btn,
-.woecare-slot-cancel-btn {
+.woecare-slot-cancel-btn,.woecare-slot-view-btn {
   background: #ffffff;
   padding: 20px 30px;
   border-radius: 25px;
@@ -67,7 +67,7 @@ html, body {
 }
 
 .woecare-slot-booking-btn:hover,
-.woecare-slot-cancel-btn:hover {
+.woecare-slot-cancel-btn:hover, .woecare-slot-view-btn.hover{
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }

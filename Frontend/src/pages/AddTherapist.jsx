@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../firebase"; // Ensure this points to your Firebase config
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import "./BookSlot.css"; // Maintain same CSS format
 
 const AddTherapist = () => {
@@ -9,6 +9,7 @@ const AddTherapist = () => {
     name: "",
     education: "",
     email: "",
+    availableTime: "" // New field for available time
   });
   const [responseMessage, setResponseMessage] = useState("");
   const navigate = useNavigate();
@@ -20,11 +21,14 @@ const AddTherapist = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await addDoc(collection(db, "therapists"), formData);
+      await addDoc(collection(db, "therapists"), {
+        ...formData,
+        createdAt: serverTimestamp() // Adding timestamp field
+      });
       setResponseMessage("Therapist added successfully!");
-      setFormData({ name: "", education: "", email: "" });
+      setFormData({ name: "", education: "", email: "", availableTime: "" });
     } catch (error) {
-      setResponseMessage("Therapist added successfully");
+      setResponseMessage("Error adding therapist. Please try again.");
     }
   };
 
@@ -53,6 +57,14 @@ const AddTherapist = () => {
           name="email"
           placeholder="Email"
           value={formData.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="availableTime"
+          placeholder="Available Time (e.g., 10 AM - 4 PM)"
+          value={formData.availableTime}
           onChange={handleChange}
           required
         />
